@@ -15,3 +15,11 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() = default;
+
+void MainWindow::change_label()
+{
+    std::wstring s_wstr = L"우유가";
+    QString q_str = QString::fromStdWString(s_wstr);
+
+    simpleLabel_->setText(q_str);
+}

@@ -1,14 +1,31 @@
 #pragma once
 
+#include <iostream>
 #include <list>
 #include <stdexcept>
 #include <string>
+
+struct WDictWord
+{
+    std::wstring word;
+    std::wstring meaning;
+
+    WDictWord() = default;
+    WDictWord(const std::wstring &word, const std::wstring &meaning);
+};
+std::wostream &operator<<(std::wostream &s, const WDictWord &wdw);
 
 struct DictWord
 {
     std::string word;
     std::string meaning;
+
+    WDictWord to_wdict();
+
+    DictWord() = default;
+    DictWord(const std::string &word, const std::string &meaning);
 };
+std::ostream &operator<<(std::ostream &s, const DictWord &dw);
 
 /*! Parse simple dictionary-like file.
  *
