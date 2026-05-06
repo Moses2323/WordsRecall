@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     simpleLabel_ = new QLabel(tr("Speed Level 우유:"));
     QFont fnt;
-    fnt.setPointSize(150);
+    fnt.setPointSize(15);
     simpleLabel_->setFont(fnt);
 
     mL_->addWidget(simpleLabel_, 10);
@@ -16,10 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() = default;
 
-void MainWindow::change_label()
+void MainWindow::change_label(const std::string &s)
 {
-    std::wstring s_wstr = L"우유가";
-    QString q_str = QString::fromStdWString(s_wstr);
-
+    QString q_str = QString::fromUtf8(s.c_str(), s.size());
     simpleLabel_->setText(q_str);
 }

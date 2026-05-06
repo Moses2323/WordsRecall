@@ -19,11 +19,11 @@ struct _DictWordAsIndices
 {
     // beginning of the word index
     size_t b_word = 0;
-    // end of the word index
+    // end of the word index (included)
     size_t e_word = 0;
     // beginning of the meaning index
     size_t b_meaning = 0;
-    // end of the meaning index
+    // end of the meaning index (included)
     size_t e_meaning = 0;
 
     _DictWordAsIndices() = default;
@@ -122,17 +122,26 @@ std::wostream &operator<<(std::wostream &s, const WDictWord &wdw)
     return s;
 }
 
-WDictWord DictWord::to_wdict()
+WDictWord DictWord::to_wdict() const
 {
-    throw std::exception("Not implemented");
-    WDictWord wdw;
-    return wdw;
+    size_t nwchars_word = (word.size() + sizeof(wchar_t) - 1) / sizeof(wchar_t);
+    std::wstring w_word(nwchars_word, L'\0');
+    ::memcpy(reinterpret_cast<void *>(w_word.data()),
+             reinterpret_cast<const void *>(word.data()),
+             word.size());
+
+    size_t nwchars_meaning = (meaning.size() + sizeof(wchar_t) - 1) / sizeof(wchar_t);
+    std::wstring w_meaning(nwchars_meaning, L'\0');
+    ::memcpy(reinterpret_cast<void *>(w_meaning.data()),
+             reinterpret_cast<const void *>(meaning.data()),
+             meaning.size());
+    return WDictWord(w_word, w_meaning);
 }
 
 std::list<DictWord> parse_dict_file(const std::string &filename)
 {
     fs::path path(filename);
-    // \todo Move to 1 level higher
+    //! \todo Move to 1 level higher
     if (fs::is_directory(path)) {
         std::stringstream ess;
         ess << "Input file '" << filename << "' is a directory";
@@ -193,8 +202,10 @@ std::list<DictWord> parse_dict_file_content(const std::string &file_content)
     // split into word-meaning pairs (make new strings)
     std::list<DictWord> dict_words;
     for (const _DictWordAsIndices &dwi : dict_indices) {
-        dict_words.push_back(DictWord(file_content.substr(dwi.b_word, dwi.e_word),
-                                      file_content.substr(dwi.b_meaning, dwi.e_meaning)));
+        size_t nchar_word = dwi.e_word - dwi.b_word + 1;
+        size_t nchar_meaning = dwi.e_meaning - dwi.b_meaning + 1;
+        dict_words.push_back(DictWord(file_content.substr(dwi.b_word, nchar_word),
+                                      file_content.substr(dwi.b_meaning, nchar_meaning)));
     }
     return dict_words;
 }

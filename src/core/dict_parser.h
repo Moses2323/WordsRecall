@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <string>
 
+//! \todo Delete if unnecessary
 struct WDictWord
 {
     std::wstring word;
@@ -20,7 +21,7 @@ struct DictWord
     std::string word;
     std::string meaning;
 
-    WDictWord to_wdict();
+    WDictWord to_wdict() const;
 
     DictWord() = default;
     DictWord(const std::string &word, const std::string &meaning);

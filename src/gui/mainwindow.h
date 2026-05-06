@@ -1,8 +1,9 @@
 #pragma once
 
-#include <QLabel>
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QWidget>
+#include <string>
 
 class MainWindow : public QWidget
 {
@@ -14,5 +15,5 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
-    void change_label();
+    void change_label(const std::string &s);
 };
