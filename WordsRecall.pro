@@ -9,11 +9,13 @@ CONFIG += c++20
 SOURCES += \
     src/core/dict_parser.cpp \
     src/gui/debug_window.cpp \
+    src/gui/wrmainwindow.cpp \
     src/main.cpp
 
 HEADERS += \
     src/core/dict_parser.h \
-    src/gui/debug_window.h
+    src/gui/debug_window.h \
+    src/gui/wrmainwindow.h
 
 TRANSLATIONS += \
     trs/translations.ts

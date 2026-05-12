@@ -1,4 +1,5 @@
 #include <src/gui/debug_window.h>
+#include <src/gui/wrmainwindow.h>
 
 #include <QApplication>
 #include <QDebug>
@@ -6,7 +7,10 @@
 #include <QMessageBox>
 #include <QTranslator>
 #include <iostream>
+#include <memory>
 #include <src/core/dict_parser.h>
+
+constexpr bool _DEBUG_DICT = false;
 
 // proper dict file
 const char *_DICT_FILENAME = "../../../dictionaries/dict_1.txt";
@@ -39,6 +43,7 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
+    // translator
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
     for (const QString &locale : uiLanguages) {
@@ -48,16 +53,25 @@ int main(int argc, char *argv[])
             break;
         }
     }
-    WRDebugWindow w;
-    std::string filename(_DICT_FILENAME);
-    std::list<DictWord> words = parse_dict_file(filename);
 
-    // for checking the words
-    std::stringstream vss;
-    for (auto &e : words)
-        vss << e << "\n";
-    w.change_label(vss.str());
+    std::unique_ptr<WRDebugWindow> wp = nullptr;
+    std::unique_ptr<WRMainWindow> wp_mw = nullptr;
+    if (_DEBUG_DICT) {
+        // debug window
+        wp.reset(new WRDebugWindow);
+        std::string filename(_DICT_FILENAME);
+        std::list<DictWord> words = parse_dict_file(filename);
 
-    w.show();
+        std::stringstream vss;
+        for (auto &e : words)
+            vss << e << "\n";
+        wp->change_label(vss.str());
+        wp->show();
+    } else {
+        // main GUI
+        wp_mw.reset(new WRMainWindow);
+        wp_mw->show();
+    }
+
     return QCoreApplication::exec();
 }
