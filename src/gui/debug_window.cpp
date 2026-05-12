@@ -1,6 +1,6 @@
-#include "mainwindow.h"
+#include "debug_window.h"
 
-MainWindow::MainWindow(QWidget *parent)
+WRDebugWindow::WRDebugWindow(QWidget *parent)
     : QWidget(parent)
 {
     mL_ = new QHBoxLayout;
@@ -14,9 +14,9 @@ MainWindow::MainWindow(QWidget *parent)
     setLayout(mL_);
 }
 
-MainWindow::~MainWindow() = default;
+WRDebugWindow::~WRDebugWindow() = default;
 
-void MainWindow::change_label(const std::string &s)
+void WRDebugWindow::change_label(const std::string &s)
 {
     QString q_str = QString::fromUtf8(s.c_str(), s.size());
     simpleLabel_->setText(q_str);

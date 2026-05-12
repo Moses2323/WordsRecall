@@ -1,4 +1,4 @@
-#include <src/gui/mainwindow.h>
+#include <src/gui/debug_window.h>
 
 #include <QApplication>
 #include <QDebug>
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
             break;
         }
     }
-    MainWindow w;
+    WRDebugWindow w;
     std::string filename(_DICT_FILENAME);
     std::list<DictWord> words = parse_dict_file(filename);
 
