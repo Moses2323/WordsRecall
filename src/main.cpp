@@ -10,7 +10,7 @@
 #include <memory>
 #include <src/core/dict_parser.h>
 
-constexpr bool _DEBUG_DICT = true;
+constexpr bool _DEBUG_DICT = false;
 
 // proper dict file
 const char *_DICT_FILENAME = "./dictionaries/dict_1.txt";
@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
             wp->show();
         } else {
             // main GUI
-            wp_mw.reset(new WRMainWindow);
+            wp_mw.reset(new WRMainWindow(nullptr, ""));
             wp_mw->show();
         }
 
