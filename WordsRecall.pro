@@ -26,3 +26,14 @@ CONFIG += embed_translations
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+######## additional actions
+DESTDIR = $$OUT_PWD
+
+win32 {
+    # Copy the whole 'dictionaries' folder recursively
+    QMAKE_POST_LINK += xcopy /Y /I /E $$shell_path($$PWD/dictionaries) $$shell_path($$DESTDIR\\dictionaries)
+}
+unix {
+    QMAKE_POST_LINK += cp -rf $$PWD/assets $$DESTDIR/
+}

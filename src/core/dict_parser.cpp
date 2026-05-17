@@ -138,7 +138,7 @@ WDictWord DictWord::to_wdict() const
     return WDictWord(w_word, w_meaning);
 }
 
-std::list<DictWord> parse_dict_file(const std::string &filename)
+std::vector<DictWord> parse_dict_file(const std::string &filename)
 {
     fs::path path(filename);
     //! \todo Move to 1 level higher
@@ -163,20 +163,20 @@ std::list<DictWord> parse_dict_file(const std::string &filename)
     return parse_dict_file_content(content);
 }
 
-std::list<DictWord> parse_dict_file_content(const std::string &file_content)
+std::vector<DictWord> parse_dict_file_content(const std::string &dict_string)
 {
-    size_t num_dict_words = _count_num_dict_words(file_content);
+    size_t num_dict_words = _count_num_dict_words(dict_string);
 
     // rough split based on separators only
     std::vector<_DictWordAsIndices> dict_indices(num_dict_words);
-    if (file_content[0] == SEPARATOR) {
+    if (dict_string[0] == SEPARATOR) {
         throw dict_file_error("Dict file should not start with '@' symbol");
     }
     size_t current_word_idx = 0;
     bool current_is_word = true; // word / meaning
     size_t b_word = 0;
-    for (size_t i = 0; i < file_content.size(); ++i) {
-        if (file_content[i] == SEPARATOR) {
+    for (size_t i = 0; i < dict_string.size(); ++i) {
+        if (dict_string[i] == SEPARATOR) {
             if (current_is_word) {
                 dict_indices[current_word_idx].b_word = b_word;
                 dict_indices[current_word_idx].e_word = i - 1;
@@ -197,15 +197,16 @@ std::list<DictWord> parse_dict_file_content(const std::string &file_content)
 
     // strip the strings
     for (_DictWordAsIndices &e : dict_indices)
-        _strip_dict_word(file_content, e);
+        _strip_dict_word(dict_string, e);
 
     // split into word-meaning pairs (make new strings)
-    std::list<DictWord> dict_words;
+    std::vector<DictWord> dict_words;
+    dict_words.reserve(dict_indices.size());
     for (const _DictWordAsIndices &dwi : dict_indices) {
         size_t nchar_word = dwi.e_word - dwi.b_word + 1;
         size_t nchar_meaning = dwi.e_meaning - dwi.b_meaning + 1;
-        dict_words.push_back(DictWord(file_content.substr(dwi.b_word, nchar_word),
-                                      file_content.substr(dwi.b_meaning, nchar_meaning)));
+        dict_words.push_back(DictWord(dict_string.substr(dwi.b_word, nchar_word),
+                                      dict_string.substr(dwi.b_meaning, nchar_meaning)));
     }
     return dict_words;
 }

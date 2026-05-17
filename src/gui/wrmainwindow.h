@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
+#include <memory>
 
 class WRMainWindow : public QMainWindow
 {
@@ -8,4 +9,8 @@ class WRMainWindow : public QMainWindow
 public:
     WRMainWindow();
     virtual ~WRMainWindow();
+
+private:
+    struct impl;
+    std::unique_ptr<impl> pimpl_;
 };

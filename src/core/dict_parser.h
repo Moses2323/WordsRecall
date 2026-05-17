@@ -1,9 +1,9 @@
 #pragma once
 
 #include <iostream>
-#include <list>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 //! \todo Delete if unnecessary
 struct WDictWord
@@ -40,9 +40,21 @@ std::ostream &operator<<(std::ostream &s, const DictWord &dw);
  * \param filename Simple dict filename.
  * \return List of parsed dictionary pairs word-meaning.
  */
-std::list<DictWord> parse_dict_file(const std::string &filename);
+std::vector<DictWord> parse_dict_file(const std::string &filename);
 
-std::list<DictWord> parse_dict_file_content(const std::string &file_content);
+/*! Parse simple dictionary-like string.
+ *
+ * The dictionary string should have a structure:
+ * '''
+ * word1 @ meaning1 @
+ * word2 @ meaning2 @
+ * '''
+ * You can have as many spaces and new line characters in-between.
+ *
+ * \param dict_string Dict string.
+ * \return List of parsed dictionary pairs word-meaning.
+ */
+std::vector<DictWord> parse_dict_file_content(const std::string &dict_string);
 
 class dict_file_error : public std::runtime_error
 {
