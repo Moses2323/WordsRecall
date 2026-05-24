@@ -1,29 +1,17 @@
 #pragma once
 
 #include <QSettings>
+#include <filesystem>
 
-//! \class RAII-like for QSettings .beginReadArray().
-class ReadArraySettingsGuard
-{
-    QSettings &settings_;
-    bool readOk_{false};
-    int size_{-1};
+namespace wr {
 
-public:
-    //! Ouput size from .beginReadArray() method.
-    int size() const { return size_; }
+//! \brief Check if the settings file has to be recreated.
+bool need_recreate_settings(const QSettings &settings);
 
-    ReadArraySettingsGuard(QSettings &settings, const QAnyStringView &prefix);
-    ~ReadArraySettingsGuard();
-};
+//! \brief Makes the default settings file.
+void create_default_settings(QSettings &settings);
 
-//! \class RAII-like for QSettings .beginGroup().
-class BeginGroupSettingsGuard
-{
-    QSettings &settings_;
-    bool beginGroupOk_{false};
+//! \brief Updates the settings file based on files in the directory.
+void update_settings_from_dir(QSettings &settings, const std::filesystem::path &dict_fld);
 
-public:
-    BeginGroupSettingsGuard(QSettings &settings, const QAnyStringView &prefix);
-    ~BeginGroupSettingsGuard();
-};
+} // namespace wr
