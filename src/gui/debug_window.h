@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <string>
 
+//! Simple Widget for dictionary debugging.
 class WRDebugWindow : public QWidget
 {
     Q_OBJECT

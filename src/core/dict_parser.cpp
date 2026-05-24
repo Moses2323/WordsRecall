@@ -100,6 +100,8 @@ void _strip_dict_word(const std::string &file_content, _DictWordAsIndices &dwi)
 
 } // namespace
 
+// -----------------------------------------------------------------------------------------------
+
 DictWord::DictWord(const std::string &word, const std::string &meaning)
     : word(word)
     , meaning(meaning)

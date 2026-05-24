@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <memory>
 
+//! Main window for the application.
 class WRMainWindow : public QMainWindow
 {
     Q_OBJECT

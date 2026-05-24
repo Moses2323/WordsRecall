@@ -17,7 +17,7 @@ const char *_DICT_FILENAME = "./dictionaries/dict_1.txt";
 // for simple test based on just english words
 // const char *_DICT_FILENAME = "./dictionaries/dict_eng.txt";
 
-int my_checking(int argc, char *argv[])
+int my_checking(int /*argc*/, char ** /*argv*/)
 {
     std::string filename(_DICT_FILENAME);
     std::vector<DictWord> words = parse_dict_file(filename);
@@ -28,7 +28,7 @@ int my_checking(int argc, char *argv[])
     return 0;
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
     try {
         //return my_checking(argc, argv);
