@@ -56,27 +56,16 @@ BeginGroupSettingsGuard::~BeginGroupSettingsGuard()
         settings_.endGroup();
 }
 
-struct _DictToggleSetting
-{
-    fs::path dict_file{};
-    bool is_active{false};
-
-    bool operator<(const _DictToggleSetting &oth) const
-    {
-        return dict_file.filename() < oth.dict_file.filename();
-    }
-};
-
-std::vector<_DictToggleSetting> _read_dir_as_toggles(const fs::path &dict_fld)
+std::vector<WRDictToggleSetting> _read_dir_as_toggles(const fs::path &dict_fld)
 {
     size_t n_files = 0;
     for (auto const &_file : fs::directory_iterator(dict_fld))
         n_files++;
 
-    std::vector<_DictToggleSetting> toggles;
+    std::vector<WRDictToggleSetting> toggles;
     toggles.reserve(n_files);
     for (const fs::path &file : fs::directory_iterator(dict_fld)) {
-        toggles.push_back(_DictToggleSetting(fs::absolute(file), false));
+        toggles.push_back(WRDictToggleSetting(fs::absolute(file), false));
     }
 
     std::sort(toggles.begin(), toggles.end());
@@ -84,7 +73,7 @@ std::vector<_DictToggleSetting> _read_dir_as_toggles(const fs::path &dict_fld)
 }
 
 void _fill_settings_toggles_with_existing_vals(QSettings &settings,
-                                               std::vector<_DictToggleSetting> &toggles)
+                                               std::vector<WRDictToggleSetting> &toggles)
 {
     ReadArraySettingsGuard ras_guard(settings, "dictionaries");
     size_t n_settings = ras_guard.size();
@@ -100,7 +89,7 @@ void _fill_settings_toggles_with_existing_vals(QSettings &settings,
         std::string i_fl_str = std::to_string(i_fl);
         std::string filename = settings.value("name_" + i_fl_str).toString().toStdString();
 
-        for (_DictToggleSetting &tg : toggles)
+        for (WRDictToggleSetting &tg : toggles)
             if (filename == tg.dict_file.filename())
                 tg.is_active = settings.value("is_active_" + i_fl_str).toBool();
     }
@@ -109,6 +98,11 @@ void _fill_settings_toggles_with_existing_vals(QSettings &settings,
 } // namespace
 
 // -----------------------------------------------------------------------------------------------
+
+bool WRDictToggleSetting::operator<(const WRDictToggleSetting &oth) const
+{
+    return dict_file.filename() < oth.dict_file.filename();
+}
 
 namespace wr {
 
@@ -133,7 +127,7 @@ void create_default_settings(QSettings &settings)
 
 void update_settings_from_dir(QSettings &settings, const fs::path &dict_fld)
 {
-    std::vector<_DictToggleSetting> toggles = _read_dir_as_toggles(dict_fld);
+    std::vector<WRDictToggleSetting> toggles = _read_dir_as_toggles(dict_fld);
     _fill_settings_toggles_with_existing_vals(settings, toggles);
 
     {

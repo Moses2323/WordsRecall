@@ -12,6 +12,7 @@ SOURCES += \
     src/gui/debug_window.cpp \
     src/gui/wrmainwindow.cpp \
     src/gui/wrsettings.cpp \
+    src/gui/wrsettingswidget.cpp \
     src/main.cpp
 
 HEADERS += \
@@ -20,7 +21,8 @@ HEADERS += \
     src/core/wrpaths.h \
     src/gui/debug_window.h \
     src/gui/wrmainwindow.h \
-    src/gui/wrsettings.h
+    src/gui/wrsettings.h \
+    src/gui/wrsettingswidget.h
 
 TRANSLATIONS += \
     trs/translations.ts

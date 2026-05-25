@@ -2,6 +2,27 @@
 
 #include <QSettings>
 #include <filesystem>
+#include <vector>
+
+struct WRDictToggleSetting
+{
+    std::filesystem::path dict_file{};
+    bool is_active{false};
+
+    bool operator<(const WRDictToggleSetting &oth) const;
+};
+
+//! \class
+class WRSettings
+{
+public:
+    WRSettings() = default;
+    WRSettings(const WRSettings &) = delete;
+    WRSettings &operator=(const WRSettings &) = delete;
+
+    QSettings settings{"words_recall.ini", QSettings::IniFormat};
+    std::vector<WRDictToggleSetting> toggles;
+};
 
 namespace wr {
 
