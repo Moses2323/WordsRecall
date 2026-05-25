@@ -33,8 +33,9 @@ public:
 ReadArraySettingsGuard::ReadArraySettingsGuard(QSettings &settings, const QAnyStringView &prefix)
     : settings_(settings)
 {
-    size_ = settings_.beginReadArray(prefix);
+    int _ = settings_.beginReadArray(prefix);
     readOk_ = true; // only if no exception occurs
+    size_ = settings_.allKeys().size();
 }
 
 ReadArraySettingsGuard::~ReadArraySettingsGuard()
@@ -56,41 +57,41 @@ BeginGroupSettingsGuard::~BeginGroupSettingsGuard()
         settings_.endGroup();
 }
 
-std::vector<WRDictToggleSetting> _read_dir_as_toggles(const fs::path &dict_fld)
+void _read_dir_as_toggles(const fs::path &dict_fld, std::vector<WRDictToggleSetting> &toggles)
 {
+    toggles.clear();
+
     size_t n_files = 0;
     for (auto const &_file : fs::directory_iterator(dict_fld))
-        n_files++;
+        ++n_files;
 
-    std::vector<WRDictToggleSetting> toggles;
     toggles.reserve(n_files);
     for (const fs::path &file : fs::directory_iterator(dict_fld)) {
         toggles.push_back(WRDictToggleSetting(fs::absolute(file), false));
     }
 
     std::sort(toggles.begin(), toggles.end());
-    return toggles;
 }
 
 void _fill_settings_toggles_with_existing_vals(QSettings &settings,
                                                std::vector<WRDictToggleSetting> &toggles)
 {
     ReadArraySettingsGuard ras_guard(settings, "dictionaries");
-    size_t n_settings = ras_guard.size();
+    int n_settings = ras_guard.size();
     if (n_settings % 2 != 0) {
         std::stringstream ess;
         ess << "Number of settings for dictionaries cannot be odd, but " << n_settings
             << " was found";
         throw std::runtime_error(ess.str());
     }
-    size_t n_files = n_settings / 2;
+    int n_files = n_settings / 2;
 
-    for (size_t i_fl = 0; i_fl < n_files; i_fl++) {
+    for (int i_fl = 0; i_fl < n_files; i_fl++) {
         std::string i_fl_str = std::to_string(i_fl);
         std::string filename = settings.value("name_" + i_fl_str).toString().toStdString();
 
         for (WRDictToggleSetting &tg : toggles)
-            if (filename == tg.dict_file.filename())
+            if (filename == tg.dict_file.filename().string())
                 tg.is_active = settings.value("is_active_" + i_fl_str).toBool();
     }
 }
@@ -99,9 +100,24 @@ void _fill_settings_toggles_with_existing_vals(QSettings &settings,
 
 // -----------------------------------------------------------------------------------------------
 
+QString WRDictToggleSetting::short_filename() const
+{
+    return QString(dict_file.filename().string().c_str());
+}
+
 bool WRDictToggleSetting::operator<(const WRDictToggleSetting &oth) const
 {
     return dict_file.filename() < oth.dict_file.filename();
+}
+
+const std::filesystem::path &WRSettings::get_dict_fld() const
+{
+    return dict_fld_;
+}
+
+void WRSettings::set_dict_fld(const std::filesystem::path &dict_fld)
+{
+    dict_fld_ = dict_fld;
 }
 
 namespace wr {
@@ -125,22 +141,26 @@ void create_default_settings(QSettings &settings)
     settings.sync();
 }
 
-void update_settings_from_dir(QSettings &settings, const fs::path &dict_fld)
+void update_settings_from_dir(WRSettings &wrsettings)
 {
-    std::vector<WRDictToggleSetting> toggles = _read_dir_as_toggles(dict_fld);
-    _fill_settings_toggles_with_existing_vals(settings, toggles);
+    _read_dir_as_toggles(wrsettings.get_dict_fld(), wrsettings.toggles);
+    _fill_settings_toggles_with_existing_vals(wrsettings.settings, wrsettings.toggles);
 
+    dump_toggles_to_settings_file(wrsettings.settings, wrsettings.toggles);
+}
+
+void dump_toggles_to_settings_file(QSettings &settings,
+                                   const std::vector<WRDictToggleSetting> &toggles)
+{
     {
         BeginGroupSettingsGuard guard(settings, "dictionaries");
 
         settings.remove("");
         for (size_t i = 0; i < toggles.size(); ++i) {
-            settings.setValue("name_" + std::to_string(i),
-                              QString(toggles[i].dict_file.filename().string().c_str()));
+            settings.setValue("name_" + std::to_string(i), toggles[i].short_filename());
             settings.setValue("is_active_" + std::to_string(i), toggles[i].is_active);
         }
     }
-
     settings.sync();
 }
 

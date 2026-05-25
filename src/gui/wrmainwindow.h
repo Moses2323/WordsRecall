@@ -13,11 +13,11 @@ public:
     virtual ~WRMainWindow();
 
 private slots:
-    void openSettings_();
+    void open_settings_();
 
 private:
     struct impl;
     std::unique_ptr<impl> pimpl_;
 
-    void createMenuActions_();
+    void create_menu_actions_();
 };

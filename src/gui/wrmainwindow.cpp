@@ -5,15 +5,15 @@
 #include <QSettings>
 #include <filesystem>
 #include <iostream>
+#include <memory>
 #include <src/core/wrpaths.h>
 #include <src/gui/wrsettings.h>
+#include <src/gui/wrsettingswidget.h>
 
 namespace fs = std::filesystem;
 
 struct WRMainWindow::impl
 {
-    //! \brief Main dir for dictionary files.
-    fs::path dict_fld{};
     //! \brief All application settings guts.
     WRSettings wrsettings;
 
@@ -22,6 +22,8 @@ struct WRMainWindow::impl
     //! \brief Menu for 'File' tab.
     QMenu *fileMenu{nullptr};
     QAction *aOpenSettings_{nullptr};
+
+    std::unique_ptr<WRSettingsWidget> settingsWidget{nullptr};
 };
 
 namespace {} // namespace
@@ -32,30 +34,34 @@ WRMainWindow::WRMainWindow(QWidget *parent, const fs::path &dict_fld)
     : QMainWindow(parent)
     , pimpl_(new WRMainWindow::impl)
 {
-    pimpl_->dict_fld = (dict_fld.empty()) ? get_default_dictionaries_fld() : fs::absolute(dict_fld);
+    fs::path dict_fld_param = (dict_fld.empty()) ? get_default_dictionaries_fld()
+                                                 : fs::absolute(dict_fld);
+    pimpl_->wrsettings.set_dict_fld(dict_fld_param);
 
     // settings
     if (wr::need_recreate_settings(pimpl_->wrsettings.settings))
         wr::create_default_settings(pimpl_->wrsettings.settings);
-    wr::update_settings_from_dir(pimpl_->wrsettings.settings, pimpl_->dict_fld);
+    wr::update_settings_from_dir(pimpl_->wrsettings);
 
-    createMenuActions_();
+    create_menu_actions_();
 }
 
 WRMainWindow::~WRMainWindow() {}
 
-void WRMainWindow::openSettings_()
+void WRMainWindow::open_settings_()
 {
-    //! \todo add open settings action
-    qDebug() << "openSettings_() action was called";
+    if (!pimpl_->settingsWidget) {
+        pimpl_->settingsWidget.reset(new WRSettingsWidget(nullptr, pimpl_->wrsettings));
+    }
+    pimpl_->settingsWidget->show();
 }
 
-void WRMainWindow::createMenuActions_()
+void WRMainWindow::create_menu_actions_()
 {
     // 'File' menu
     pimpl_->fileMenu = menuBar()->addMenu(tr("&File"));
     pimpl_->aOpenSettings_ = new QAction(tr("&Settings..."), this);
     pimpl_->aOpenSettings_->setStatusTip(tr("Open settings"));
-    connect(pimpl_->aOpenSettings_, &QAction::triggered, this, &WRMainWindow::openSettings_);
+    connect(pimpl_->aOpenSettings_, &QAction::triggered, this, &WRMainWindow::open_settings_);
     pimpl_->fileMenu->addAction(pimpl_->aOpenSettings_);
 }
