@@ -13,6 +13,11 @@ public:
     virtual ~WRMainWindow();
 
 private slots:
+    /*! \brief Opens a special Settings widget.
+     *  
+     *  You can close and re-open the settings window, but it won't be
+     *  recreated. Qt just hides it when you close.
+     */
     void open_settings_();
 
 private:

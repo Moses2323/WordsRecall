@@ -12,12 +12,16 @@
 
 struct WRSettingsWidget::impl
 {
+    // Settings guts.
     WRSettings &wrsettings;
 
     QVBoxLayout *mainLayout{nullptr};
+    // Widget for selecting dict files.
     QGroupBox *dictSelectionWidget{nullptr};
+    // Dict files selection checkboxes.
     std::vector<QCheckBox *> toggleBoxes_;
 
+    // Settings widget buttons.
     QHBoxLayout *buttonsLayout{nullptr};
     QPushButton *okButton{nullptr};
     QPushButton *cancelButton{nullptr};
@@ -70,6 +74,7 @@ void WRSettingsWidget::ok_()
 
 void WRSettingsWidget::cancel_()
 {
+    toggles_to_checkboxes_();
     close();
 }
 
@@ -79,7 +84,7 @@ void WRSettingsWidget::refresh()
     toggles_to_checkboxes_();
 }
 
-void WRSettingsWidget::toggles_to_checkboxes_()
+void WRSettingsWidget::clean_dict_checkboxes_()
 {
     if (pimpl_->dictSelectionWidget != nullptr) {
         pimpl_->mainLayout->removeWidget(pimpl_->dictSelectionWidget);
@@ -87,6 +92,12 @@ void WRSettingsWidget::toggles_to_checkboxes_()
         pimpl_->dictSelectionWidget = nullptr;
         pimpl_->toggleBoxes_.clear();
     }
+}
+
+void WRSettingsWidget::toggles_to_checkboxes_()
+{
+    clean_dict_checkboxes_();
+
     pimpl_->dictSelectionWidget = new QGroupBox(tr("Dictionaries:"));
     QVBoxLayout *layout = new QVBoxLayout;
 

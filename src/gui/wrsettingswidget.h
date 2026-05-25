@@ -24,4 +24,5 @@ private:
 
     void toggles_to_checkboxes_();
     void checkboxes_states_to_toggles_();
+    void clean_dict_checkboxes_();
 };
