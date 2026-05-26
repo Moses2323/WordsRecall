@@ -84,6 +84,12 @@ void WRSettingsWidget::refresh()
     toggles_to_checkboxes_();
 }
 
+void WRSettingsWidget::closeEvent(QCloseEvent *event)
+{
+    toggles_to_checkboxes_();
+    return QWidget::closeEvent(event);
+}
+
 void WRSettingsWidget::clean_dict_checkboxes_()
 {
     if (pimpl_->dictSelectionWidget != nullptr) {

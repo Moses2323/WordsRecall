@@ -14,6 +14,9 @@ public:
 public slots:
     void refresh();
 
+protected:
+    virtual void closeEvent(QCloseEvent *event) override;
+
 private slots:
     void ok_();
     void cancel_();
