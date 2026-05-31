@@ -20,7 +20,7 @@ const char *_DICT_FILENAME = "./dictionaries/dict_1.txt";
 int my_checking(int /*argc*/, char ** /*argv*/)
 {
     std::string filename(_DICT_FILENAME);
-    std::vector<DictWord> words = parse_dict_file(filename);
+    std::vector<DictWord> words = wr::parse_dict_file(filename);
     for (auto &e : words)
         std::cout << "size(" << e.word.size() << ", " << e.meaning.size() << "): " << e
                   << std::endl;
@@ -52,7 +52,7 @@ int main(int argc, char **argv)
             // debug window
             wp.reset(new WRDebugWindow);
             std::string filename(_DICT_FILENAME);
-            std::vector<DictWord> words = parse_dict_file(filename);
+            std::vector<DictWord> words = wr::parse_dict_file(filename);
 
             std::stringstream vss;
             for (auto &e : words)

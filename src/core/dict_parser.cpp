@@ -42,7 +42,7 @@ size_t _count_num_dict_words(const std::string &file_content)
     if (num_separators % 2 != 0) {
         std::stringstream ess;
         ess << "Number of separators should be even, but now it is odd: " << num_separators;
-        throw dict_file_error(ess.str());
+        throw wr::dict_file_error(ess.str());
     }
     size_t num_words = num_separators / 2;
     return num_words;
@@ -94,7 +94,7 @@ void _strip_dict_word(const std::string &file_content, _DictWordAsIndices &dwi)
         ess << "The word or it's meaning seems empty:" << std::endl;
         ess << "    " << dwi << std::endl;
         ess << "    '" << file_content.substr(dwi.b_word, dwi.e_meaning) << "'" << std::endl;
-        throw dict_file_error(ess.str());
+        throw wr::dict_file_error(ess.str());
     }
 }
 
@@ -139,6 +139,8 @@ WDictWord DictWord::to_wdict() const
              meaning.size());
     return WDictWord(w_word, w_meaning);
 }
+
+namespace wr {
 
 std::vector<DictWord> parse_dict_file(const std::string &filename)
 {
@@ -212,3 +214,5 @@ std::vector<DictWord> parse_dict_file_content(const std::string &dict_string)
     }
     return dict_words;
 }
+
+} // namespace wr

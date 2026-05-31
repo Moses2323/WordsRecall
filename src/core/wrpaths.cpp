@@ -5,6 +5,8 @@
 
 namespace fs = std::filesystem;
 
+namespace wr {
+
 std::filesystem::path get_default_dictionaries_fld()
 {
     fs::path p(wr::gDICT_DEFAULT_FLD);
@@ -20,3 +22,5 @@ std::filesystem::path get_default_dictionaries_fld()
     }
     return p;
 }
+
+} // namespace wr

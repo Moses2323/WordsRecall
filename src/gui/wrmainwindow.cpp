@@ -37,7 +37,7 @@ WRMainWindow::WRMainWindow(QWidget *parent, const fs::path &dict_fld)
     : QMainWindow(parent)
     , pimpl_(new WRMainWindow::impl)
 {
-    fs::path dict_fld_param = (dict_fld.empty()) ? get_default_dictionaries_fld()
+    fs::path dict_fld_param = (dict_fld.empty()) ? wr::get_default_dictionaries_fld()
                                                  : fs::absolute(dict_fld);
     pimpl_->wrsettings.set_dict_fld(dict_fld_param);
 

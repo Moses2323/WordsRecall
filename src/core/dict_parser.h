@@ -28,6 +28,8 @@ struct DictWord
 };
 std::ostream &operator<<(std::ostream &s, const DictWord &dw);
 
+namespace wr {
+
 /*! Parse simple dictionary-like file.
  *
  * The dictionary file should have a structure:
@@ -61,3 +63,5 @@ class dict_file_error : public std::runtime_error
 public:
     using std::runtime_error::runtime_error;
 };
+
+} // namespace wr
