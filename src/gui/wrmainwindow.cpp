@@ -7,6 +7,7 @@
 #include <iostream>
 #include <memory>
 #include <src/core/wrpaths.h>
+#include <src/gui/wrgamewidget.h>
 #include <src/gui/wrsettings.h>
 #include <src/gui/wrsettingswidget.h>
 
@@ -24,6 +25,8 @@ struct WRMainWindow::impl
     QAction *aOpenSettings_{nullptr};
 
     std::unique_ptr<WRSettingsWidget> settingsWidget{nullptr};
+
+    WRGameWidget *gameWidget_{nullptr};
 };
 
 namespace {} // namespace
@@ -44,6 +47,9 @@ WRMainWindow::WRMainWindow(QWidget *parent, const fs::path &dict_fld)
     wr::update_settings_from_dir(pimpl_->wrsettings);
 
     create_menu_actions_();
+
+    pimpl_->gameWidget_ = new WRGameWidget(this);
+    setCentralWidget(pimpl_->gameWidget_);
 }
 
 WRMainWindow::~WRMainWindow() {}

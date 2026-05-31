@@ -4,6 +4,7 @@
 #include <memory>
 #include <src/gui/wrsettings.h>
 
+//! \class Settings widget. Opens as a separate window.
 class WRSettingsWidget : public QWidget
 {
     Q_OBJECT
@@ -11,15 +12,16 @@ public:
     WRSettingsWidget(QWidget *parent, WRSettings &wrsettings);
     virtual ~WRSettingsWidget();
 
-public slots:
-    void refresh();
-
 protected:
     virtual void closeEvent(QCloseEvent *event) override;
 
 private slots:
+    //! Action for 'OK' button. Saves the chosen settings.
     void ok_();
+    //! Action for 'Cancel' button. Cancels the chosen settings.
     void cancel_();
+    //! Action for 'Refresh' button. Refresh dict files folder.
+    void refresh_();
 
 private:
     struct impl;

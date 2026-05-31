@@ -58,7 +58,7 @@ WRSettingsWidget::WRSettingsWidget(QWidget *parent, WRSettings &wrsettings)
     // action connects
     connect(pimpl_->okButton, &QPushButton::released, this, &WRSettingsWidget::ok_);
     connect(pimpl_->cancelButton, &QPushButton::released, this, &WRSettingsWidget::cancel_);
-    connect(pimpl_->refreshButton, &QPushButton::released, this, &WRSettingsWidget::refresh);
+    connect(pimpl_->refreshButton, &QPushButton::released, this, &WRSettingsWidget::refresh_);
 
     toggles_to_checkboxes_();
 }
@@ -78,7 +78,7 @@ void WRSettingsWidget::cancel_()
     close();
 }
 
-void WRSettingsWidget::refresh()
+void WRSettingsWidget::refresh_()
 {
     wr::update_settings_from_dir(pimpl_->wrsettings);
     toggles_to_checkboxes_();

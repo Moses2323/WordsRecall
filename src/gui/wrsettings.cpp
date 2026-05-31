@@ -33,7 +33,7 @@ public:
 ReadArraySettingsGuard::ReadArraySettingsGuard(QSettings &settings, const QAnyStringView &prefix)
     : settings_(settings)
 {
-    int _ = settings_.beginReadArray(prefix);
+    (void) settings_.beginReadArray(prefix);
     readOk_ = true; // only if no exception occurs
     size_ = settings_.allKeys().size();
 }

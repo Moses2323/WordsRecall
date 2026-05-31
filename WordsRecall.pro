@@ -10,6 +10,7 @@ SOURCES += \
     src/core/dict_parser.cpp \
     src/core/wrpaths.cpp \
     src/gui/debug_window.cpp \
+    src/gui/wrgamewidget.cpp \
     src/gui/wrmainwindow.cpp \
     src/gui/wrsettings.cpp \
     src/gui/wrsettingswidget.cpp \
@@ -20,6 +21,7 @@ HEADERS += \
     src/core/wrdefined.h \
     src/core/wrpaths.h \
     src/gui/debug_window.h \
+    src/gui/wrgamewidget.h \
     src/gui/wrmainwindow.h \
     src/gui/wrsettings.h \
     src/gui/wrsettingswidget.h

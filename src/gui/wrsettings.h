@@ -14,19 +14,21 @@ struct WRDictToggleSetting
     bool operator<(const WRDictToggleSetting &oth) const;
 };
 
-//! \class
+//! \class Application settings data class. No GUI.
 class WRSettings
 {
 public:
+    //! \brief Qt settings for INI file.
     QSettings settings{"words_recall.ini", QSettings::IniFormat};
+    //! \brief Toggles for dict files, chosen by user.
     std::vector<WRDictToggleSetting> toggles;
+
+    const std::filesystem::path &get_dict_fld() const;
+    void set_dict_fld(const std::filesystem::path &dict_fld);
 
     WRSettings() = default;
     WRSettings(const WRSettings &) = delete;
     WRSettings &operator=(const WRSettings &) = delete;
-
-    const std::filesystem::path &get_dict_fld() const;
-    void set_dict_fld(const std::filesystem::path &dict_fld);
 
 private:
     //! \brief Main dir for dictionary files.
