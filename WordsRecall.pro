@@ -9,10 +9,10 @@ CONFIG += c++20
 SOURCES += \
     src/core/dict_parser.cpp \
     src/core/wrpaths.cpp \
+    src/core/wrsettings.cpp \
     src/gui/debug_window.cpp \
     src/gui/wrgamewidget.cpp \
     src/gui/wrmainwindow.cpp \
-    src/gui/wrsettings.cpp \
     src/gui/wrsettingswidget.cpp \
     src/main.cpp
 
@@ -20,10 +20,10 @@ HEADERS += \
     src/core/dict_parser.h \
     src/core/wrdefined.h \
     src/core/wrpaths.h \
+    src/core/wrsettings.h \
     src/gui/debug_window.h \
     src/gui/wrgamewidget.h \
     src/gui/wrmainwindow.h \
-    src/gui/wrsettings.h \
     src/gui/wrsettingswidget.h
 
 TRANSLATIONS += \

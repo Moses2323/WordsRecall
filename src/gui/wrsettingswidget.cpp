@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QWidget>
-#include <src/gui/wrsettings.h>
+#include <src/core/wrsettings.h>
 #include <sstream>
 #include <vector>
 

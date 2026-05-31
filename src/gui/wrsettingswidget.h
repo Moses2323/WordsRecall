@@ -2,7 +2,7 @@
 
 #include <QWidget>
 #include <memory>
-#include <src/gui/wrsettings.h>
+#include <src/core/wrsettings.h>
 
 //! \class Settings widget. Opens as a separate window.
 class WRSettingsWidget : public QWidget

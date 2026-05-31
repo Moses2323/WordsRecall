@@ -7,8 +7,8 @@
 #include <iostream>
 #include <memory>
 #include <src/core/wrpaths.h>
+#include <src/core/wrsettings.h>
 #include <src/gui/wrgamewidget.h>
-#include <src/gui/wrsettings.h>
 #include <src/gui/wrsettingswidget.h>
 
 namespace fs = std::filesystem;
