@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <iostream>
 #include <memory>
+#include <src/core/wrgamedata.h>
 #include <src/core/wrpaths.h>
 #include <src/core/wrsettings.h>
 #include <src/gui/wrgamewidget.h>
@@ -17,6 +18,7 @@ struct WRMainWindow::impl
 {
     //! \brief All application settings guts.
     WRSettings wrsettings;
+    WRGameData gameData;
 
     // ---- Qt GUI related
 
@@ -48,7 +50,7 @@ WRMainWindow::WRMainWindow(QWidget *parent, const fs::path &dict_fld)
 
     create_menu_actions_();
 
-    pimpl_->gameWidget_ = new WRGameWidget(this);
+    pimpl_->gameWidget_ = new WRGameWidget(this, pimpl_->gameData);
     setCentralWidget(pimpl_->gameWidget_);
 }
 

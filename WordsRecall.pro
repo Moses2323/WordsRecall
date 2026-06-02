@@ -9,6 +9,7 @@ CONFIG += c++20
 SOURCES += \
     src/core/dict_parser.cpp \
     src/core/wrgamedata.cpp \
+    src/core/wrgamelogic.cpp \
     src/core/wrpaths.cpp \
     src/core/wrsettings.cpp \
     src/gui/debug_window.cpp \
@@ -21,6 +22,7 @@ HEADERS += \
     src/core/dict_parser.h \
     src/core/wrdefined.h \
     src/core/wrgamedata.h \
+    src/core/wrgamelogic.h \
     src/core/wrpaths.h \
     src/core/wrsettings.h \
     src/gui/debug_window.h \

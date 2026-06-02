@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <src/core/wrdefined.h>
 #include <sstream>
 #include <vector>
 

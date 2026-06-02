@@ -1,7 +1,6 @@
 #pragma once
 
 #include <iostream>
-#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -57,11 +56,5 @@ std::vector<DictWord> parse_dict_file(const std::string &filename);
  * \return List of parsed dictionary pairs word-meaning.
  */
 std::vector<DictWord> parse_dict_file_content(const std::string &dict_string);
-
-class dict_file_error : public std::runtime_error
-{
-public:
-    using std::runtime_error::runtime_error;
-};
 
 } // namespace wr

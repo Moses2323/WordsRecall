@@ -2,14 +2,18 @@
 
 #include <QWidget>
 #include <memory>
+#include <src/core/wrgamedata.h>
 
 //! \class Main widget for the game.
 class WRGameWidget : public QWidget
 {
     Q_OBJECT
 public:
-    WRGameWidget(QWidget *parent = nullptr);
+    WRGameWidget(QWidget *parent, WRGameData &gameData);
     virtual ~WRGameWidget();
+
+    WRGameWidget(const WRGameWidget &) = delete;
+    WRGameWidget &operator=(const WRGameWidget &) = delete;
 
 private:
     struct impl;
