@@ -23,4 +23,10 @@ std::filesystem::path get_default_dictionaries_fld()
     return p;
 }
 
+std::string path_to_string(const std::filesystem::path &p)
+{
+    const char *ccp = reinterpret_cast<const char *>(p.u8string().c_str());
+    return std::string(ccp);
+}
+
 } // namespace wr

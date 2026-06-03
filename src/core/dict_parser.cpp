@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <src/core/wrdefined.h>
+#include <src/core/wrpaths.h>
 #include <sstream>
 #include <vector>
 
@@ -145,11 +146,15 @@ namespace wr {
 
 std::vector<DictWord> parse_dict_file(const std::string &filename)
 {
-    fs::path path(filename);
+    return parse_dict_file(fs::path(filename));
+}
+
+std::vector<DictWord> parse_dict_file(const std::filesystem::path &path)
+{
     //! \todo Move to 1 level higher
     if (fs::is_directory(path)) {
         std::stringstream ess;
-        ess << "Input file '" << filename << "' is a directory";
+        ess << "Input file '" << wr::path_to_string(path) << "' is a directory";
         throw dict_file_error(ess.str());
     }
 

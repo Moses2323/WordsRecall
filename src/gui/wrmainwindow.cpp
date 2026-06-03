@@ -46,7 +46,7 @@ WRMainWindow::WRMainWindow(QWidget *parent, const fs::path &dict_fld)
     // fill settings from INI file
     if (wr::need_recreate_settings(pimpl_->wrsettings.settings))
         wr::create_default_settings(pimpl_->wrsettings.settings);
-    wr::update_settings_from_dir(pimpl_->wrsettings);
+    wr::read_settings_from_ini_file(pimpl_->wrsettings);
 
     create_menu_actions_();
 

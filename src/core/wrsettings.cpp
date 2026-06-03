@@ -132,6 +132,8 @@ bool need_recreate_settings(const QSettings &settings)
     if (!keys.contains("dict_format"))
         return true;
 
+    //! \todo check if need to recreate the dict files section as well.
+
     return false;
 }
 
@@ -147,6 +149,14 @@ void update_settings_from_dir(WRSettings &wrsettings)
     _fill_settings_toggles_with_existing_vals(wrsettings.settings, wrsettings.toggles);
 
     dump_toggles_to_settings_file(wrsettings.settings, wrsettings.toggles);
+}
+
+void read_settings_from_ini_file(WRSettings &wrsettings)
+{
+    QString encoding_str = wrsettings.settings.value("dict_general/dict_format").toString();
+    wrsettings.encoding = wr::encoding_from_str(encoding_str);
+
+    update_settings_from_dir(wrsettings);
 }
 
 void dump_toggles_to_settings_file(QSettings &settings,

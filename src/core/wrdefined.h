@@ -16,9 +16,10 @@ concept StringType = std::same_as<T, const char *> || std::same_as<std::decay_t<
 
 //! \enum Supported encodings for dict files.
 enum class DictFileEncoding : char {
-    utf8 = 0,
-    utf16 = 1,
-    latin1 = 2,
+    not_set = 0,
+    utf8 = 1,
+    utf16 = 2,
+    latin1 = 3,
 };
 
 // ------------------------------ GLOBALS ---------------------------------

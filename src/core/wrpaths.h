@@ -1,6 +1,7 @@
 #pragma once
 
 #include <filesystem>
+#include <string>
 
 namespace wr {
 
@@ -11,5 +12,7 @@ namespace wr {
  * \return Dictionaries folder as filesystem object.
  */
 std::filesystem::path get_default_dictionaries_fld();
+
+std::string path_to_string(const std::filesystem::path &p);
 
 } // namespace wr

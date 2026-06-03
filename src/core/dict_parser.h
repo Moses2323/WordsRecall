@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -42,6 +43,7 @@ namespace wr {
  * \return List of parsed dictionary pairs word-meaning.
  */
 std::vector<DictWord> parse_dict_file(const std::string &filename);
+std::vector<DictWord> parse_dict_file(const std::filesystem::path &path);
 
 /*! Parse simple dictionary-like string.
  *
