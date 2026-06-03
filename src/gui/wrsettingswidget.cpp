@@ -38,9 +38,9 @@ WRSettingsWidget::WRSettingsWidget(QWidget *parent, WRSettings &wrsettings)
 {
     setMinimumSize(300, 100);
 
+    // layouts
     pimpl_->mainLayout = new QVBoxLayout;
     pimpl_->buttonsLayout = new QHBoxLayout;
-    //pimpl_->dictSelectionWidget = new QGroupBox(tr("Dictionaries:"));
 
     pimpl_->okButton = new QPushButton(tr("&OK"));
     pimpl_->cancelButton = new QPushButton(tr("&Cancel"));
@@ -50,7 +50,6 @@ WRSettingsWidget::WRSettingsWidget(QWidget *parent, WRSettings &wrsettings)
     pimpl_->buttonsLayout->addWidget(pimpl_->cancelButton);
     pimpl_->buttonsLayout->addWidget(pimpl_->refreshButton);
 
-    //pimpl_->mainLayout->addWidget(pimpl_->dictSelectionWidget);
     pimpl_->mainLayout->addLayout(pimpl_->buttonsLayout);
 
     setLayout(pimpl_->mainLayout);
@@ -60,6 +59,7 @@ WRSettingsWidget::WRSettingsWidget(QWidget *parent, WRSettings &wrsettings)
     connect(pimpl_->cancelButton, &QPushButton::released, this, &WRSettingsWidget::cancel_);
     connect(pimpl_->refreshButton, &QPushButton::released, this, &WRSettingsWidget::refresh_);
 
+    // init actions
     toggles_to_checkboxes_();
 }
 

@@ -43,7 +43,7 @@ WRMainWindow::WRMainWindow(QWidget *parent, const fs::path &dict_fld)
                                                  : fs::absolute(dict_fld);
     pimpl_->wrsettings.set_dict_fld(dict_fld_param);
 
-    // settings
+    // fill settings from INI file
     if (wr::need_recreate_settings(pimpl_->wrsettings.settings))
         wr::create_default_settings(pimpl_->wrsettings.settings);
     wr::update_settings_from_dir(pimpl_->wrsettings);

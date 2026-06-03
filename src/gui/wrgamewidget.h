@@ -15,6 +15,10 @@ public:
     WRGameWidget(const WRGameWidget &) = delete;
     WRGameWidget &operator=(const WRGameWidget &) = delete;
 
+private slots:
+    void start_();
+    void reset_();
+
 private:
     struct impl;
     std::unique_ptr<impl> pimpl_;

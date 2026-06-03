@@ -32,6 +32,14 @@ struct SessionData
 //! \class All game related data.
 struct WRGameData
 {
+    //! \brief All words from dicts will be merged here.
     std::vector<WRGDictWord> mergedDicts;
+    //! \brief Current game session data.
     SessionData sessionData{};
+
+    WRGameData() = default;
+
+    // only to avoid any pitfalls during the app development for now
+    WRGameData(const WRGameData &) = delete;
+    WRGameData &operator=(const WRGameData &) = delete;
 };
