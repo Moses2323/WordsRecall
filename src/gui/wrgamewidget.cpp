@@ -40,6 +40,8 @@ struct WRGameWidget::impl
 
 namespace {} // namespace
 
+// -----------------------------------------------------------------------------------------------
+
 WRGameWidget::WRGameWidget(QWidget *parent, WRGameData &gameData)
     : QWidget(parent)
     , pimpl_(new WRGameWidget::impl(gameData))
@@ -89,8 +91,12 @@ WRGameWidget::WRGameWidget(QWidget *parent, WRGameData &gameData)
     // connects
     connect(pimpl_->startButton, &QPushButton::released, this, &WRGameWidget::start_);
     connect(pimpl_->resetButton, &QPushButton::released, this, &WRGameWidget::reset_);
+    connect(pimpl_->wordLineEdit, &QLineEdit::returnPressed, this, &WRGameWidget::enterWord_);
 
     // initial enabling
+    pimpl_->wordLineEdit->setDisabled(false);
+    pimpl_->startButton->setDisabled(false);
+    pimpl_->resetButton->setDisabled(false);
 }
 
 WRGameWidget::~WRGameWidget() {}
@@ -103,4 +109,9 @@ void WRGameWidget::start_()
 void WRGameWidget::reset_()
 {
     qDebug() << "reset button action";
+}
+
+void WRGameWidget::enterWord_()
+{
+    qDebug() << "Enter word action: " << pimpl_->wordLineEdit->text();
 }

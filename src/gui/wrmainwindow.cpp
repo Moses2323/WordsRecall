@@ -7,6 +7,7 @@
 #include <iostream>
 #include <memory>
 #include <src/core/wrgamedata.h>
+#include <src/core/wrgamelogic.h>
 #include <src/core/wrpaths.h>
 #include <src/core/wrsettings.h>
 #include <src/gui/wrgamewidget.h>
@@ -52,6 +53,11 @@ WRMainWindow::WRMainWindow(QWidget *parent, const fs::path &dict_fld)
 
     pimpl_->gameWidget_ = new WRGameWidget(this, pimpl_->gameData);
     setCentralWidget(pimpl_->gameWidget_);
+
+    ///////////////////// only for testing
+    auto merged_dicts = wr::merge_dicts(pimpl_->wrsettings.toggles, pimpl_->wrsettings.encoding);
+    qDebug() << "sdfsdfsdf";
+    /////////////////////////////////////////////
 }
 
 WRMainWindow::~WRMainWindow() {}

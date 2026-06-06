@@ -32,6 +32,8 @@ struct WRSettingsWidget::impl
     {}
 };
 
+// -----------------------------------------------------------------------------------------------
+
 WRSettingsWidget::WRSettingsWidget(QWidget *parent, WRSettings &wrsettings)
     : QWidget(parent)
     , pimpl_(new WRSettingsWidget::impl(wrsettings))

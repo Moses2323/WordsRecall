@@ -26,10 +26,6 @@ int my_checking(int /*argc*/, char ** /*argv*/)
         std::cout << "size(" << e.word.size() << ", " << e.meaning.size() << "): " << e
                   << std::endl;
 
-    auto g = wr::encoding_from_str("utf-8");
-    auto g2 = wr::encoding_from_str(std::string("utf-8"));
-    auto g3 = wr::encoding_from_str(QString("utf-8"));
-
     return 0;
 }
 

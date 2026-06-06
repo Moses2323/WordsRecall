@@ -23,10 +23,19 @@ std::filesystem::path get_default_dictionaries_fld()
     return p;
 }
 
+//! \todo need to be tested properly.
 std::string path_to_string(const std::filesystem::path &p)
 {
-    const char *ccp = reinterpret_cast<const char *>(p.u8string().c_str());
-    return std::string(ccp);
+    std::string s;
+    {
+        auto utf8_str = p.u8string();
+        s = std::move(std::string(reinterpret_cast<const char *>(utf8_str.c_str()),
+                                  utf8_str.size() * sizeof(utf8_str[0])
+
+                                      ));
+    }
+
+    return s;
 }
 
 } // namespace wr

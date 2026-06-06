@@ -18,6 +18,7 @@ public:
 private slots:
     void start_();
     void reset_();
+    void enterWord_();
 
 private:
     struct impl;
