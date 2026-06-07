@@ -3,6 +3,7 @@
 #include <QWidget>
 #include <memory>
 #include <src/core/wrsettings.h>
+#include <src/gui/wrmainwindow.h>
 
 //! \class Settings widget. Opens as a separate window.
 class WRSettingsWidget : public QWidget
@@ -14,7 +15,7 @@ public:
      *  \param parent      Qt widget parent pointer.
      *  \param wrsettings  Ref to widget-independent settings.
      */
-    WRSettingsWidget(QWidget *parent, WRSettings &wrsettings);
+    WRSettingsWidget(WRMainWindow *parent, WRSettings &wrsettings);
     virtual ~WRSettingsWidget();
 
 protected:

@@ -12,6 +12,9 @@ public:
     WRMainWindow(QWidget *parent, const std::filesystem::path &dict_fld);
     virtual ~WRMainWindow();
 
+    //! \brief When settings were changed, this function must be called.
+    void new_settings_saved();
+
 private slots:
     /*! \brief Opens a special Settings widget.
      *  

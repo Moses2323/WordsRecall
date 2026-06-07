@@ -14,6 +14,7 @@ struct WRSettingsWidget::impl
 {
     // Settings guts.
     WRSettings &wrsettings;
+    WRMainWindow *parentMainWindow{nullptr};
 
     QVBoxLayout *mainLayout{nullptr};
     // Widget for selecting dict files.
@@ -27,16 +28,17 @@ struct WRSettingsWidget::impl
     QPushButton *cancelButton{nullptr};
     QPushButton *refreshButton{nullptr};
 
-    explicit impl(WRSettings &wrsettings)
+    impl(WRSettings &wrsettings, WRMainWindow *parentMainWindow)
         : wrsettings(wrsettings)
+        , parentMainWindow(parentMainWindow)
     {}
 };
 
 // -----------------------------------------------------------------------------------------------
 
-WRSettingsWidget::WRSettingsWidget(QWidget *parent, WRSettings &wrsettings)
+WRSettingsWidget::WRSettingsWidget(WRMainWindow *parent, WRSettings &wrsettings)
     : QWidget(parent)
-    , pimpl_(new WRSettingsWidget::impl(wrsettings))
+    , pimpl_(new WRSettingsWidget::impl(wrsettings, parent))
 {
     setMinimumSize(300, 100);
 
@@ -72,6 +74,7 @@ void WRSettingsWidget::ok_()
     checkboxes_states_to_toggles_();
     wr::dump_toggles_to_settings_file(pimpl_->wrsettings.settings, pimpl_->wrsettings.toggles);
     close();
+    pimpl_->parentMainWindow->new_settings_saved();
 }
 
 void WRSettingsWidget::cancel_()

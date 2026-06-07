@@ -57,6 +57,11 @@ WRMainWindow::WRMainWindow(QWidget *parent, const fs::path &dict_fld)
 
 WRMainWindow::~WRMainWindow() {}
 
+void WRMainWindow::new_settings_saved()
+{
+    pimpl_->gameWidget_->fill_from_settings();
+}
+
 void WRMainWindow::open_settings_()
 {
     if (!pimpl_->settingsWidget) {

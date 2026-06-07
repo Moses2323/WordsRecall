@@ -25,9 +25,20 @@ struct WRMergedResult
 
 namespace wr {
 
+/*! Merge all chosen dicts.
+ *  
+ *  \param toggles  Toggles for chosen dict files. Defines which dict files to merge.
+ *  \param encoding Encoding used for dict files (utf-8 is a common one).
+ *  \return Merge result as a single dict with QStrings. 
+ *          Also contains the check for words with the same meaning.
+ */
 WRMergedResult merge_dicts(const std::vector<WRDictToggleSetting> &toggles,
                            wr::DictFileEncoding encoding);
 
+//! \brief Multi-meaning words as a warning message.
 QString unexpected_multimeaning_as_warning_message(const std::vector<WRMultiMeaning> &dict_mm);
+
+//! \brief Populate game data from settings.
+void fill_game_data_from_settings(const WRSettings &settings, WRGameData &gamedata);
 
 } // namespace wr

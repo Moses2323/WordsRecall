@@ -16,6 +16,8 @@ public:
     WRGameWidget(const WRGameWidget &) = delete;
     WRGameWidget &operator=(const WRGameWidget &) = delete;
 
+    void fill_from_settings();
+
 private slots:
     void start_();
     void reset_();

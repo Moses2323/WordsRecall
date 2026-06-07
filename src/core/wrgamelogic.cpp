@@ -149,4 +149,6 @@ QString unexpected_multimeaning_as_warning_message(const std::vector<WRMultiMean
     return out_str;
 }
 
+void fill_game_data_from_settings(const WRSettings &settings, WRGameData &gamedata) {}
+
 } // namespace wr

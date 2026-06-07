@@ -110,6 +110,12 @@ WRGameWidget::WRGameWidget(QWidget *parent, WRGameData &gameData, WRSettings &wr
 
 WRGameWidget::~WRGameWidget() {}
 
+void WRGameWidget::fill_from_settings()
+{
+    wr::fill_game_data_from_settings(pimpl_->wrsettings, pimpl_->gameData);
+    //! \todo change GUI
+}
+
 void WRGameWidget::start_()
 {
     qDebug() << "start button action";
