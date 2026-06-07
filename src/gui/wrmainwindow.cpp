@@ -51,7 +51,7 @@ WRMainWindow::WRMainWindow(QWidget *parent, const fs::path &dict_fld)
 
     create_menu_actions_();
 
-    pimpl_->gameWidget_ = new WRGameWidget(this, pimpl_->gameData, pimpl_->wrsettings);
+    pimpl_->gameWidget_ = new WRGameWidget(this, pimpl_->gameData);
     setCentralWidget(pimpl_->gameWidget_);
 }
 
@@ -59,7 +59,7 @@ WRMainWindow::~WRMainWindow() {}
 
 void WRMainWindow::new_settings_saved()
 {
-    pimpl_->gameWidget_->fill_from_settings();
+    pimpl_->gameWidget_->fill_from_settings(pimpl_->wrsettings);
 }
 
 void WRMainWindow::open_settings_()

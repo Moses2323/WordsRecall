@@ -10,13 +10,13 @@ class WRGameWidget : public QWidget
 {
     Q_OBJECT
 public:
-    WRGameWidget(QWidget *parent, WRGameData &gameData, WRSettings &wrsettings);
+    WRGameWidget(QWidget *parent, WRGameData &gameData);
     virtual ~WRGameWidget();
 
     WRGameWidget(const WRGameWidget &) = delete;
     WRGameWidget &operator=(const WRGameWidget &) = delete;
 
-    void fill_from_settings();
+    void fill_from_settings(const WRSettings &settings);
 
 private slots:
     void start_();
