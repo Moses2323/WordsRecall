@@ -6,10 +6,12 @@
 #include <QPushButton>
 #include <QTextEdit>
 #include <QVBoxLayout>
+#include <src/core/wrgamelogic.h>
 
 struct WRGameWidget::impl
 {
     WRGameData &gameData;
+    WRSettings &wrsettings;
 
     QVBoxLayout *mainLayout{nullptr};
 
@@ -30,8 +32,9 @@ struct WRGameWidget::impl
     QLabel *wordLabel{nullptr};
     QLineEdit *wordLineEdit{nullptr};
 
-    explicit impl(WRGameData &gameData)
+    impl(WRGameData &gameData, WRSettings &wrsettings)
         : gameData(gameData)
+        , wrsettings(wrsettings)
     {}
 
     impl(const impl &) = delete;
@@ -42,9 +45,9 @@ namespace {} // namespace
 
 // -----------------------------------------------------------------------------------------------
 
-WRGameWidget::WRGameWidget(QWidget *parent, WRGameData &gameData)
+WRGameWidget::WRGameWidget(QWidget *parent, WRGameData &gameData, WRSettings &wrsettings)
     : QWidget(parent)
-    , pimpl_(new WRGameWidget::impl(gameData))
+    , pimpl_(new WRGameWidget::impl(gameData, wrsettings))
 {
     pimpl_->mainLayout = new QVBoxLayout(this);
 
@@ -94,9 +97,15 @@ WRGameWidget::WRGameWidget(QWidget *parent, WRGameData &gameData)
     connect(pimpl_->wordLineEdit, &QLineEdit::returnPressed, this, &WRGameWidget::enterWord_);
 
     // initial enabling
+    ///////////////////// only for testing
+    auto merged_dicts = wr::merge_dicts(pimpl_->wrsettings.toggles, pimpl_->wrsettings.encoding);
+    QString warning_message = wr::unexpected_multimeaning_as_warning_message(
+        merged_dicts.unexpected_multimeaning);
+
     pimpl_->wordLineEdit->setDisabled(false);
     pimpl_->startButton->setDisabled(false);
     pimpl_->resetButton->setDisabled(false);
+    /////////////////////////////////////////////
 }
 
 WRGameWidget::~WRGameWidget() {}

@@ -51,13 +51,8 @@ WRMainWindow::WRMainWindow(QWidget *parent, const fs::path &dict_fld)
 
     create_menu_actions_();
 
-    pimpl_->gameWidget_ = new WRGameWidget(this, pimpl_->gameData);
+    pimpl_->gameWidget_ = new WRGameWidget(this, pimpl_->gameData, pimpl_->wrsettings);
     setCentralWidget(pimpl_->gameWidget_);
-
-    ///////////////////// only for testing
-    auto merged_dicts = wr::merge_dicts(pimpl_->wrsettings.toggles, pimpl_->wrsettings.encoding);
-    qDebug() << "sdfsdfsdf";
-    /////////////////////////////////////////////
 }
 
 WRMainWindow::~WRMainWindow() {}

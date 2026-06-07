@@ -3,13 +3,14 @@
 #include <QWidget>
 #include <memory>
 #include <src/core/wrgamedata.h>
+#include <src/core/wrsettings.h>
 
 //! \class Main widget for the game.
 class WRGameWidget : public QWidget
 {
     Q_OBJECT
 public:
-    WRGameWidget(QWidget *parent, WRGameData &gameData);
+    WRGameWidget(QWidget *parent, WRGameData &gameData, WRSettings &wrsettings);
     virtual ~WRGameWidget();
 
     WRGameWidget(const WRGameWidget &) = delete;

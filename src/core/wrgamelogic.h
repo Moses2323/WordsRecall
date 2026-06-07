@@ -28,4 +28,6 @@ namespace wr {
 WRMergedResult merge_dicts(const std::vector<WRDictToggleSetting> &toggles,
                            wr::DictFileEncoding encoding);
 
+QString unexpected_multimeaning_as_warning_message(const std::vector<WRMultiMeaning> &dict_mm);
+
 } // namespace wr

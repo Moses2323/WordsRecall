@@ -1,5 +1,6 @@
 #include "wrgamelogic.h"
 
+#include <QTextStream>
 #include <map>
 #include <set>
 #include <src/core/dict_parser.h>
@@ -30,6 +31,20 @@ QString _unencrypt(wr::DictFileEncoding encoding, const std::string &s)
     }
 }
 
+void _find_same_words_in_single_dict(const std::vector<DictWord> &dict,
+                                     MultiMeaningWords &multi_mean_words)
+{
+    for (size_t i = 0; i < dict.size(); ++i) {
+        for (size_t k = i + 1; k < dict.size(); ++k) {
+            const std::string &curr_word = dict[i].word;
+            if (curr_word == dict[k].word && dict[i].meaning != dict[k].meaning) {
+                multi_mean_words[curr_word].insert(dict[i].meaning);
+                multi_mean_words[curr_word].insert(dict[k].meaning);
+            }
+        }
+    }
+}
+
 MergedResultRaw _merge_dicts_raw(std::vector<std::vector<DictWord>> &&dicts)
 {
     std::vector<DictWord> merged(std::move(dicts[0]));
@@ -41,7 +56,10 @@ MergedResultRaw _merge_dicts_raw(std::vector<std::vector<DictWord>> &&dicts)
 
     // merge + check meanings repetition
     MultiMeaningWords multi_mean_words;
+    _find_same_words_in_single_dict(merged, multi_mean_words);
     for (std::vector<DictWord> &one_dict : dicts) {
+        _find_same_words_in_single_dict(one_dict, multi_mean_words);
+        // single dict VS already merged
         for (DictWord &dword : one_dict) {
             bool already_has = false;
             for (const DictWord &merged_dword : merged) {
@@ -112,11 +130,23 @@ WRMergedResult merge_dicts(const std::vector<WRDictToggleSetting> &toggles,
         = _multimeaning_to_qstring(merged_raw.unexpected_multimeaning, encoding);
     std::vector<WRGDictWord> merged;
     merged.reserve(merged_raw.merged.size());
-    for (const DictWord &dw_std : merged_raw.merged) {
+    for (const DictWord &dw_std : merged_raw.merged)
         merged.emplace_back(_unencrypt(encoding, dw_std.word), _unencrypt(encoding, dw_std.meaning));
-    }
 
     return WRMergedResult(std::move(merged), std::move(multimeaning_qstring));
+}
+
+QString unexpected_multimeaning_as_warning_message(const std::vector<WRMultiMeaning> &dict_mm)
+{
+    QString out_str;
+    QTextStream qss(&out_str);
+    qss << "[WARNING] Found different meanings for same words:\n";
+    for (const WRMultiMeaning &word_mm : dict_mm) {
+        qss << "[word] " << word_mm.word << "\n";
+        for (const QString &meaning : word_mm.meanings)
+            qss << "[meaning] " << meaning;
+    }
+    return out_str;
 }
 
 } // namespace wr

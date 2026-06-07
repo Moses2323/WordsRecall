@@ -34,6 +34,8 @@ struct WRGameData
 {
     //! \brief All words from dicts will be merged here.
     std::vector<WRGDictWord> mergedDicts;
+    //! \brief Message before the start of the game. Can contain a warning message.
+    QString initial_message{""};
     //! \brief Current game session data.
     SessionData sessionData{};
 
