@@ -142,13 +142,37 @@ QString unexpected_multimeaning_as_warning_message(const std::vector<WRMultiMean
     QTextStream qss(&out_str);
     qss << "[WARNING] Found different meanings for same words:\n";
     for (const WRMultiMeaning &word_mm : dict_mm) {
-        qss << "[word] " << word_mm.word << "\n";
+        qss << "  [word] " << word_mm.word << "\n";
         for (const QString &meaning : word_mm.meanings)
-            qss << "[meaning] " << meaning;
+            qss << "  [meaning] " << meaning << "\n";
+        qss << "\n";
     }
     return out_str;
 }
 
-void fill_game_data_from_settings(const WRSettings &settings, WRGameData &gamedata) {}
+void fill_game_data_from_settings(const WRSettings &settings, WRGameData &gamedata)
+{
+    WRMergedResult merge_result = merge_dicts(settings.toggles, settings.encoding);
+    gamedata.mergedDicts = std::move(merge_result.merged);
+    gamedata.initial_message = unexpected_multimeaning_as_warning_message(
+        merge_result.unexpected_multimeaning);
+    gamedata.sessionData.reset();
+}
+
+void start_game(WRGameData &gamedata)
+{
+    gamedata.sessionData.reset();
+    gamedata.sessionData.showIndices.resize(gamedata.mergedDicts.size());
+    for (size_t i = 0; i < gamedata.mergedDicts.size(); ++i)
+        gamedata.sessionData.showIndices[i] = i;
+    std::shuffle(gamedata.sessionData.showIndices.begin(),
+                 gamedata.sessionData.showIndices.end(),
+                 gamedata.random_generator);
+}
+
+bool answer_action(const QString &answer, WRGameData &gamedata)
+{
+    throw std::runtime_error("not finished");
+}
 
 } // namespace wr

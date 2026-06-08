@@ -36,9 +36,11 @@ struct WRSettingsWidget::impl
 
 // -----------------------------------------------------------------------------------------------
 
-WRSettingsWidget::WRSettingsWidget(WRMainWindow *parent, WRSettings &wrsettings)
+WRSettingsWidget::WRSettingsWidget(QWidget *parent,
+                                   WRSettings &wrsettings,
+                                   WRMainWindow *main_window)
     : QWidget(parent)
-    , pimpl_(new WRSettingsWidget::impl(wrsettings, parent))
+    , pimpl_(new WRSettingsWidget::impl(wrsettings, main_window))
 {
     setMinimumSize(300, 100);
 
@@ -73,8 +75,8 @@ void WRSettingsWidget::ok_()
 {
     checkboxes_states_to_toggles_();
     wr::dump_toggles_to_settings_file(pimpl_->wrsettings.settings, pimpl_->wrsettings.toggles);
-    close();
     pimpl_->parentMainWindow->new_settings_saved();
+    close();
 }
 
 void WRSettingsWidget::cancel_()

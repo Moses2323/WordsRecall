@@ -15,7 +15,7 @@ public:
      *  \param parent      Qt widget parent pointer.
      *  \param wrsettings  Ref to widget-independent settings.
      */
-    WRSettingsWidget(WRMainWindow *parent, WRSettings &wrsettings);
+    WRSettingsWidget(QWidget *parent, WRSettings &wrsettings, WRMainWindow *main_window);
     virtual ~WRSettingsWidget();
 
 protected:

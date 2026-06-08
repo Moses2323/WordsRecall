@@ -26,4 +26,7 @@ private slots:
 private:
     struct impl;
     std::unique_ptr<impl> pimpl_;
+
+    void set_before_game_state_();
+    void update_from_game_session_();
 };

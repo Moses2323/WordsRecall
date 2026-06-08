@@ -25,11 +25,11 @@ struct WRMainWindow::impl
 
     //! \brief Menu for 'File' tab.
     QMenu *fileMenu{nullptr};
-    QAction *aOpenSettings_{nullptr};
+    QAction *aOpenSettings{nullptr};
 
     std::unique_ptr<WRSettingsWidget> settingsWidget{nullptr};
 
-    WRGameWidget *gameWidget_{nullptr};
+    WRGameWidget *gameWidget{nullptr};
 };
 
 namespace {} // namespace
@@ -43,6 +43,7 @@ WRMainWindow::WRMainWindow(QWidget *parent, const fs::path &dict_fld)
     fs::path dict_fld_param = (dict_fld.empty()) ? wr::get_default_dictionaries_fld()
                                                  : fs::absolute(dict_fld);
     pimpl_->wrsettings.set_dict_fld(dict_fld_param);
+    pimpl_->gameWidget = new WRGameWidget(nullptr, pimpl_->gameData);
 
     // fill settings from INI file
     if (wr::need_recreate_settings(pimpl_->wrsettings.settings))
@@ -51,21 +52,21 @@ WRMainWindow::WRMainWindow(QWidget *parent, const fs::path &dict_fld)
 
     create_menu_actions_();
 
-    pimpl_->gameWidget_ = new WRGameWidget(this, pimpl_->gameData);
-    setCentralWidget(pimpl_->gameWidget_);
+    pimpl_->gameWidget->fill_from_settings(pimpl_->wrsettings);
+    setCentralWidget(pimpl_->gameWidget);
 }
 
 WRMainWindow::~WRMainWindow() {}
 
 void WRMainWindow::new_settings_saved()
 {
-    pimpl_->gameWidget_->fill_from_settings(pimpl_->wrsettings);
+    pimpl_->gameWidget->fill_from_settings(pimpl_->wrsettings);
 }
 
 void WRMainWindow::open_settings_()
 {
     if (!pimpl_->settingsWidget) {
-        pimpl_->settingsWidget.reset(new WRSettingsWidget(nullptr, pimpl_->wrsettings));
+        pimpl_->settingsWidget.reset(new WRSettingsWidget(nullptr, pimpl_->wrsettings, this));
     }
     pimpl_->settingsWidget->show();
 }
@@ -74,8 +75,8 @@ void WRMainWindow::create_menu_actions_()
 {
     // 'File' menu
     pimpl_->fileMenu = menuBar()->addMenu(tr("&File"));
-    pimpl_->aOpenSettings_ = new QAction(tr("&Settings..."), this);
-    pimpl_->aOpenSettings_->setStatusTip(tr("Open settings"));
-    connect(pimpl_->aOpenSettings_, &QAction::triggered, this, &WRMainWindow::open_settings_);
-    pimpl_->fileMenu->addAction(pimpl_->aOpenSettings_);
+    pimpl_->aOpenSettings = new QAction(tr("&Settings..."), this);
+    pimpl_->aOpenSettings->setStatusTip(tr("Open settings"));
+    connect(pimpl_->aOpenSettings, &QAction::triggered, this, &WRMainWindow::open_settings_);
+    pimpl_->fileMenu->addAction(pimpl_->aOpenSettings);
 }

@@ -41,4 +41,15 @@ QString unexpected_multimeaning_as_warning_message(const std::vector<WRMultiMean
 //! \brief Populate game data from settings.
 void fill_game_data_from_settings(const WRSettings &settings, WRGameData &gamedata);
 
+//! \brief Prepare data for the start of the game (after 'Start' button is pressed).
+void start_game(WRGameData &gamedata);
+
+/*! Answer action.
+ *  
+ *  \param answer    User answer.
+ *  \param gamedata  Game data.
+ *  \return was the answer correct?
+ */
+bool answer_action(const QString &answer, WRGameData &gamedata);
+
 } // namespace wr
