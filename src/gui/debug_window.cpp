@@ -5,7 +5,7 @@ WRDebugWindow::WRDebugWindow(QWidget *parent)
 {
     mL_ = new QHBoxLayout;
 
-    simpleLabel_ = new QLabel(tr("Speed Level 우유:"));
+    simpleLabel_ = new QLabel("Speed Level 우유:");
     QFont fnt;
     fnt.setPointSize(15);
     simpleLabel_->setFont(fnt);

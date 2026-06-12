@@ -17,22 +17,9 @@ const char *_DICT_FILENAME = "./dictionaries/dict_1.txt";
 // for simple test based on just english words
 // const char *_DICT_FILENAME = "./dictionaries/dict_eng.txt";
 
-int my_checking(int /*argc*/, char ** /*argv*/)
-{
-    std::string filename(_DICT_FILENAME);
-    std::vector<DictWord> words = wr::parse_dict_file(filename);
-    for (auto &e : words)
-        std::cout << "size(" << e.word.size() << ", " << e.meaning.size() << "): " << e
-                  << std::endl;
-
-    return 0;
-}
-
 int main(int argc, char **argv)
 {
     try {
-        //return my_checking(argc, argv);
-
         QApplication a(argc, argv);
 
         // translator
@@ -46,6 +33,7 @@ int main(int argc, char **argv)
             }
         }
 
+        // GUI
         std::unique_ptr<WRDebugWindow> wp = nullptr;
         std::unique_ptr<WRMainWindow> wp_mw = nullptr;
         if (_DEBUG_DICT) {

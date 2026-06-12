@@ -29,6 +29,7 @@ struct WRGameWidget::impl
     QLabel *meaningLabel{nullptr};
     QTextEdit *meaningText{nullptr};
     QLabel *wordLabel{nullptr};
+    // For getting input from the user
     QLineEdit *wordLineEdit{nullptr};
 
     explicit impl(WRGameData &gameData)
@@ -41,6 +42,8 @@ struct WRGameWidget::impl
 
 namespace {
 
+// N correct words / N max possible correct (how many words user already saw).
+// e.g.'5/7' (total is not provided).
 QString ncorrect_nmax_to_str(const WRSessionData &session)
 {
     QString ncorrect_str = QString::number(session.correctlyDone.size());
@@ -48,6 +51,7 @@ QString ncorrect_nmax_to_str(const WRSessionData &session)
     return ncorrect_str + "/" + nmaxcorrect_str;
 }
 
+// N correct / N total (even the ones that user hasn't seen yet).
 QString ncorrect_ntotal_to_str(const WRGameData &gdata)
 {
     QString ncorrect_str = QString::number(gdata.sessionData.correctlyDone.size());
@@ -89,7 +93,7 @@ WRGameWidget::WRGameWidget(QWidget *parent, WRGameData &gameData)
     pimpl_->gameStatsLayout->addStretch();
     pimpl_->mainLayout->addLayout(pimpl_->gameStatsLayout);
 
-    // enter fields
+    // dict word-meaning related
     pimpl_->dictWordLayout = new QVBoxLayout;
     pimpl_->meaningLabel = new QLabel(tr("Meaning:"));
     pimpl_->meaningText = new QTextEdit("");
@@ -109,8 +113,6 @@ WRGameWidget::WRGameWidget(QWidget *parent, WRGameData &gameData)
     connect(pimpl_->startButton, &QPushButton::released, this, &WRGameWidget::start_);
     connect(pimpl_->resetButton, &QPushButton::released, this, &WRGameWidget::reset_);
     connect(pimpl_->wordLineEdit, &QLineEdit::returnPressed, this, &WRGameWidget::enterWord_);
-
-    // initial enabling
 }
 
 WRGameWidget::~WRGameWidget() {}

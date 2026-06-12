@@ -14,6 +14,7 @@ namespace fs = std::filesystem;
 
 namespace {
 
+//! \brief Separator symbol for the dict file.
 constexpr char SEPARATOR = '@';
 
 // Dict words indices from the file content string
@@ -124,7 +125,6 @@ std::vector<DictWord> parse_dict_file(const std::string &filename)
 
 std::vector<DictWord> parse_dict_file(const std::filesystem::path &path)
 {
-    //! \todo Move to 1 level higher
     if (fs::is_directory(path)) {
         std::stringstream ess;
         ess << "Input file '" << wr::path_to_string(path) << "' is a directory";
@@ -139,10 +139,12 @@ std::vector<DictWord> parse_dict_file(const std::filesystem::path &path)
         throw dict_file_error(ess.str());
     }
 
+    // read the whole file in one go
     size_t file_size = fs::file_size(path);
     std::string content(file_size, '\0');
     fin.read(content.data(), file_size);
 
+    // parse the content
     return parse_dict_file_content(content);
 }
 
