@@ -140,6 +140,10 @@ QString unexpected_multimeaning_as_warning_message(const std::vector<WRMultiMean
 {
     QString out_str;
     QTextStream qss(&out_str);
+    if (dict_mm.size() == 0) {
+        return QString("");
+    }
+
     qss << "[WARNING] Found different meanings for same words:\n";
     for (const WRMultiMeaning &word_mm : dict_mm) {
         qss << "  [word] " << word_mm.word << "\n";
