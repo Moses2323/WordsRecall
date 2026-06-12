@@ -172,7 +172,32 @@ void start_game(WRGameData &gamedata)
 
 bool answer_action(const QString &answer, WRGameData &gamedata)
 {
-    throw std::runtime_error("not finished");
+    if (gamedata.sessionData.isFinished)
+        return true;
+
+    QString answer_tr = answer.trimmed();
+    bool is_correct_answer = (answer_tr == gamedata.get_current_word().word);
+    if (is_correct_answer) {
+        if (gamedata.sessionData.isNextRepeat) {
+            // was asked to enter the correct one after the failure -> entered correctly
+            gamedata.sessionData.isNextRepeat = false;
+        } else {
+            // first time correct
+            gamedata.sessionData.correctlyDone.push_back(gamedata.sessionData.roundIdx);
+        }
+
+        // go to the next word ONLY when the right one is entered correctly
+        if (gamedata.sessionData.roundIdx == gamedata.mergedDicts.size() - 1) {
+            gamedata.sessionData.isFinished = true;
+            gamedata.sessionData.isNextRepeat = false;
+        } else {
+            gamedata.sessionData.roundIdx += 1;
+        }
+    } else {
+        // ask to repeat, if wrongly entered
+        gamedata.sessionData.isNextRepeat = true;
+    }
+    return is_correct_answer;
 }
 
 } // namespace wr

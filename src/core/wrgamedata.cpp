@@ -35,6 +35,7 @@ size_t SessionData::n_incorrect() const
 void SessionData::reset()
 {
     roundIdx = 0;
+    isFinished = false;
     isNextRepeat = false;
     correctlyDone.clear();
     showIndices.clear();

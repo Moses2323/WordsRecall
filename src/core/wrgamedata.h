@@ -23,9 +23,12 @@ struct SessionData
     //! \brief Current round index.
     size_t roundIdx{0};
 
-    //! \brief If True, next round is just a repeat.
-    //! \details Need to ask the player to enter the word correctly before proceeding further.
+    /*! \brief If True, next round is just a repeat.
+     *  \details Need to ask the player to enter the word correctly before proceeding further.
+     */
     bool isNextRepeat{false};
+    //! \brief Is all words from this dict finished?
+    bool isFinished{false};
 
     //! \brief Indices of the words that were correctly done by the player.
     std::vector<size_t> correctlyDone;

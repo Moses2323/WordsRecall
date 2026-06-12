@@ -39,7 +39,23 @@ struct WRGameWidget::impl
     impl &operator=(const impl &) = delete;
 };
 
-namespace {} // namespace
+namespace {
+
+QString ncorrect_nmax_to_str(const SessionData &session)
+{
+    QString ncorrect_str = QString::number(session.correctlyDone.size());
+    QString nmaxcorrect_str = QString::number(session.roundIdx);
+    return ncorrect_str + "/" + nmaxcorrect_str;
+}
+
+QString ncorrect_ntotal_to_str(const WRGameData &gdata)
+{
+    QString ncorrect_str = QString::number(gdata.sessionData.correctlyDone.size());
+    QString ntotal_str = QString::number(gdata.mergedDicts.size());
+    return ncorrect_str + "/" + ntotal_str;
+}
+
+} // namespace
 
 // -----------------------------------------------------------------------------------------------
 
@@ -102,7 +118,7 @@ WRGameWidget::~WRGameWidget() {}
 void WRGameWidget::fill_from_settings(const WRSettings &settings)
 {
     wr::fill_game_data_from_settings(settings, pimpl_->gameData);
-    set_before_game_state_();
+    setBeforeGameState_();
 }
 
 void WRGameWidget::start_()
@@ -112,7 +128,7 @@ void WRGameWidget::start_()
     pimpl_->wordLineEdit->setText("");
 
     wr::start_game(pimpl_->gameData);
-    update_from_game_session_();
+    updateFromGameSession_();
 
     pimpl_->wordLineEdit->setEnabled(true);
     pimpl_->resetButton->setEnabled(true);
@@ -120,18 +136,21 @@ void WRGameWidget::start_()
 
 void WRGameWidget::reset_()
 {
-    set_before_game_state_();
+    setBeforeGameState_();
 }
 
 void WRGameWidget::enterWord_()
 {
-    qDebug() << "Enter word action: " << pimpl_->wordLineEdit->text();
-    QString answer = pimpl_->wordLineEdit->text().trimmed();
-    bool is_correct = wr::answer_action(answer, pimpl_->gameData);
-    throw std::runtime_error("not finished");
+    bool is_correct = wr::answer_action(pimpl_->wordLineEdit->text(), pimpl_->gameData);
+    updateFromGameSession_();
+    pimpl_->wordLineEdit->setText("");
+
+    if (pimpl_->gameData.sessionData.isFinished) {
+        finishGameSession_();
+    }
 }
 
-void WRGameWidget::set_before_game_state_()
+void WRGameWidget::setBeforeGameState_()
 {
     pimpl_->startButton->setDisabled(true);
     pimpl_->resetButton->setDisabled(true);
@@ -146,11 +165,26 @@ void WRGameWidget::set_before_game_state_()
     pimpl_->startButton->setEnabled(true);
 }
 
-void WRGameWidget::update_from_game_session_()
+void WRGameWidget::updateFromGameSession_()
 {
     pimpl_->meaningText->setText(pimpl_->gameData.get_current_word().meaning);
+    pimpl_->n_correctLabel->setText(ncorrect_nmax_to_str(pimpl_->gameData.sessionData));
 
-    QString ncorrect_str = QString::number(pimpl_->gameData.sessionData.correctlyDone.size());
-    QString nmaxcorrect_str = QString::number(pimpl_->gameData.sessionData.roundIdx);
-    pimpl_->n_correctLabel->setText(ncorrect_str + "/" + nmaxcorrect_str);
+    if (pimpl_->gameData.sessionData.isNextRepeat)
+        setMeaningTextWithAnswer_();
+}
+
+void WRGameWidget::setMeaningTextWithAnswer_()
+{
+    QString text = pimpl_->meaningText->toPlainText() + "\n\nWrong. Enter the correct answer:\n"
+                   + pimpl_->gameData.get_current_word().word;
+    pimpl_->meaningText->setText(text);
+}
+
+void WRGameWidget::finishGameSession_()
+{
+    QString finish_text = "CONGRADS! Your score " + ncorrect_ntotal_to_str(pimpl_->gameData);
+    finish_text += "\n\n" + pimpl_->gameData.initial_message;
+    pimpl_->gameData.initial_message = finish_text;
+    setBeforeGameState_();
 }

@@ -48,7 +48,7 @@ void start_game(WRGameData &gamedata);
  *  
  *  \param answer    User answer.
  *  \param gamedata  Game data.
- *  \return was the answer correct?
+ *  \return Was the answer correct?
  */
 bool answer_action(const QString &answer, WRGameData &gamedata);
 
