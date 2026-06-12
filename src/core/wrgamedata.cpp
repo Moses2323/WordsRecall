@@ -12,12 +12,12 @@ WRGDictWord::operator QString() const
     return "WRGDictWord(word='" + word + "', meaning='" + meaning + "')";
 }
 
-size_t SessionData::n_correct() const
+size_t WRSessionData::n_correct() const
 {
     return correctlyDone.size();
 }
 
-size_t SessionData::n_incorrect() const
+size_t WRSessionData::n_incorrect() const
 {
     if (roundIdx < n_correct()) {
         std::stringstream ess;
@@ -26,25 +26,37 @@ size_t SessionData::n_incorrect() const
         throw wr::game_logic_error(ess.str());
     }
 
-    // if the next round is repeat, then `roundIdx` is not yet increased, but the wrong word
+    // if the next round is a repeat, then `roundIdx` is not yet increased, but the wrong word
     // was already entered by the player => number of incorrect words += 1
     size_t repeat_round_shift = isNextRepeat ? 1 : 0;
     return roundIdx + repeat_round_shift - n_correct();
 }
 
-void SessionData::reset()
+void WRSessionData::increase_round()
+{
+    if (roundIdx == showIndices.size() - 1) {
+        isFinished = true;
+    } else {
+        roundIdx += 1;
+    }
+}
+
+void WRSessionData::reset()
 {
     roundIdx = 0;
-    isFinished = false;
     isNextRepeat = false;
+    isFinished = false;
     correctlyDone.clear();
     showIndices.clear();
-    //! \todo questionable
-    showIndices.shrink_to_fit();
 }
 
 const WRGDictWord &WRGameData::get_current_word() const
 {
     size_t current_idx = sessionData.showIndices[sessionData.roundIdx];
     return mergedDicts[current_idx];
+}
+
+bool WRGameData::empty() const
+{
+    return mergedDicts.empty();
 }

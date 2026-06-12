@@ -1,3 +1,7 @@
+/**
+ * \file    wrmainwindow.h
+ * \brief   Application Main window.
+ */
 #pragma once
 
 #include <QMainWindow>
@@ -9,6 +13,10 @@ class WRMainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
+    /*! \brief Constructor.
+     *  \param parent     Qt parent.
+     *  \param dict_fld   Folder where to look for dict files.
+     */
     WRMainWindow(QWidget *parent, const std::filesystem::path &dict_fld);
     virtual ~WRMainWindow();
 

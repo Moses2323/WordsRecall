@@ -41,7 +41,7 @@ struct WRGameWidget::impl
 
 namespace {
 
-QString ncorrect_nmax_to_str(const SessionData &session)
+QString ncorrect_nmax_to_str(const WRSessionData &session)
 {
     QString ncorrect_str = QString::number(session.correctlyDone.size());
     QString nmaxcorrect_str = QString::number(session.roundIdx);
@@ -141,7 +141,7 @@ void WRGameWidget::reset_()
 
 void WRGameWidget::enterWord_()
 {
-    bool is_correct = wr::answer_action(pimpl_->wordLineEdit->text(), pimpl_->gameData);
+    (void) wr::answer_action(pimpl_->wordLineEdit->text(), pimpl_->gameData);
     updateFromGameSession_();
     pimpl_->wordLineEdit->setText("");
 
@@ -162,7 +162,9 @@ void WRGameWidget::setBeforeGameState_()
     pimpl_->n_correctLabel->setText("");
     pimpl_->n_selectedLabel->setText(QString::number(pimpl_->gameData.mergedDicts.size()));
 
-    pimpl_->startButton->setEnabled(true);
+    if (!pimpl_->gameData.empty()) {
+        pimpl_->startButton->setEnabled(true);
+    }
 }
 
 void WRGameWidget::updateFromGameSession_()

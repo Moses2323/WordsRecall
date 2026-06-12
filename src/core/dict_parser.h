@@ -1,3 +1,7 @@
+/**
+ * \file    dict_parser.h
+ * \brief   DictWord structure and basic parsing to std::string.
+ */
 #pragma once
 
 #include <filesystem>
@@ -5,23 +9,11 @@
 #include <string>
 #include <vector>
 
-//! \todo Delete if unnecessary
-struct WDictWord
-{
-    std::wstring word;
-    std::wstring meaning;
-
-    WDictWord() = default;
-    WDictWord(const std::wstring &word, const std::wstring &meaning);
-};
-std::wostream &operator<<(std::wostream &s, const WDictWord &wdw);
-
+//! \class Raw dict word parsed directly from dict file.
 struct DictWord
 {
     std::string word;
     std::string meaning;
-
-    WDictWord to_wdict() const;
 
     DictWord() = default;
     DictWord(const std::string &word, const std::string &meaning);
@@ -54,7 +46,7 @@ std::vector<DictWord> parse_dict_file(const std::filesystem::path &path);
  * '''
  * You can have as many spaces and new line characters in-between.
  *
- * \param dict_string Dict string.
+ * \param dict_string Dict as one big string.
  * \return List of parsed dictionary pairs word-meaning.
  */
 std::vector<DictWord> parse_dict_file_content(const std::string &dict_string);

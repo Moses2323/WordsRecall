@@ -1,3 +1,7 @@
+/**
+ * \file    wrsettingswidget.h
+ * \brief   Separate window for settings.
+ */
 #pragma once
 
 #include <QWidget>
@@ -12,14 +16,15 @@ class WRSettingsWidget : public QWidget
 public:
     /*! \brief Constructor.
      *  
-     *  \param parent      Qt widget parent pointer.
-     *  \param wrsettings  Ref to widget-independent settings.
+     *  \param parent        Qt widget parent pointer.
+     *  \param wrsettings    Ref to widget-independent settings.
+     *  \param main_window   Pointer to the main application window.
      */
     WRSettingsWidget(QWidget *parent, WRSettings &wrsettings, WRMainWindow *main_window);
     virtual ~WRSettingsWidget();
 
 protected:
-    //! \brief Action when the Settings window is closed (clicked X).
+    //! \brief Action when the Settings window is closed (clicked X / OK / Cancel).
     virtual void closeEvent(QCloseEvent *event) override;
 
 private slots:

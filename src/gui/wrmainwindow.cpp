@@ -42,7 +42,7 @@ WRMainWindow::WRMainWindow(QWidget *parent, const fs::path &dict_fld)
 {
     fs::path dict_fld_param = (dict_fld.empty()) ? wr::get_default_dictionaries_fld()
                                                  : fs::absolute(dict_fld);
-    pimpl_->wrsettings.set_dict_fld(dict_fld_param);
+    pimpl_->wrsettings.setDictFld(dict_fld_param);
     pimpl_->gameWidget = new WRGameWidget(nullptr, pimpl_->gameData);
 
     // fill settings from INI file

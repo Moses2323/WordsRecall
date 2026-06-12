@@ -1,3 +1,7 @@
+/**
+ * \file    wrgamelogic.h
+ * \brief   Game logic related functions.
+ */
 #pragma once
 
 #include <src/core/wrdefined.h>
@@ -20,15 +24,15 @@ struct WRMergedResult
     /*! \brief If multiple meaning for the same word is found across dicts - it goes here.
      *  \details A word with multiple meanings is not supported.
      */
-    std::vector<WRMultiMeaning> unexpected_multimeaning;
+    std::vector<WRMultiMeaning> unexpectedMultimeaning;
 };
 
 namespace wr {
 
 /*! Merge all chosen dicts.
  *  
- *  \param toggles  Toggles for chosen dict files. Defines which dict files to merge.
- *  \param encoding Encoding used for dict files (utf-8 is a common one).
+ *  \param toggles     Toggles for chosen dict files. Defines which dict files to merge.
+ *  \param encoding    Encoding used for dict files (utf-8 is a common one).
  *  \return Merge result as a single dict with QStrings. 
  *          Also contains the check for words with the same meaning.
  */

@@ -109,37 +109,10 @@ DictWord::DictWord(const std::string &word, const std::string &meaning)
     , meaning(meaning)
 {}
 
-WDictWord::WDictWord(const std::wstring &word, const std::wstring &meaning)
-    : word(word)
-    , meaning(meaning)
-{}
-
 std::ostream &operator<<(std::ostream &s, const DictWord &dw)
 {
     s << "DictWord(word='" << dw.word << "', meaning='" << dw.meaning << "')";
     return s;
-}
-
-std::wostream &operator<<(std::wostream &s, const WDictWord &wdw)
-{
-    s << "WDictWord(word='" << wdw.word << "', meaning='" << wdw.meaning << "')";
-    return s;
-}
-
-WDictWord DictWord::to_wdict() const
-{
-    size_t nwchars_word = (word.size() + sizeof(wchar_t) - 1) / sizeof(wchar_t);
-    std::wstring w_word(nwchars_word, L'\0');
-    ::memcpy(reinterpret_cast<void *>(w_word.data()),
-             reinterpret_cast<const void *>(word.data()),
-             word.size());
-
-    size_t nwchars_meaning = (meaning.size() + sizeof(wchar_t) - 1) / sizeof(wchar_t);
-    std::wstring w_meaning(nwchars_meaning, L'\0');
-    ::memcpy(reinterpret_cast<void *>(w_meaning.data()),
-             reinterpret_cast<const void *>(meaning.data()),
-             meaning.size());
-    return WDictWord(w_word, w_meaning);
 }
 
 namespace wr {

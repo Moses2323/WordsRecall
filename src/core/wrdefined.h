@@ -1,3 +1,7 @@
+/**
+ * \file    wrdefined.h
+ * \brief   All defines for this application.
+ */
 #pragma once
 
 #include <QString>
@@ -79,6 +83,25 @@ inline DictFileEncoding encoding_from_str(ST s)
         return DictFileEncoding::latin1;
 
     throw wr::unknown_encoding(std::string("Unknown encoding '") + _to_string(s) + "'");
+}
+
+//! \brief Encoding enum to string.
+inline const char *encoding_to_str(DictFileEncoding enc)
+{
+    switch (enc) {
+    case DictFileEncoding::utf8:
+        return "utf-8";
+    case DictFileEncoding::utf16:
+        return "utf-16";
+    case DictFileEncoding::latin1:
+        return "latin-1";
+
+    case DictFileEncoding::not_set:
+    default:
+        break;
+    }
+    throw wr::unknown_encoding(std::string("Unknown encoding with code ")
+                               + std::to_string(static_cast<int>(enc)));
 }
 
 } // namespace wr

@@ -1,3 +1,7 @@
+/**
+ * \file    wrpaths.h
+ * \brief   Aux functions related to file paths.
+ */
 #pragma once
 
 #include <filesystem>

@@ -37,7 +37,7 @@ void _find_same_words_in_single_dict(const std::vector<DictWord> &dict,
     for (size_t i = 0; i < dict.size(); ++i) {
         for (size_t k = i + 1; k < dict.size(); ++k) {
             const std::string &curr_word = dict[i].word;
-            if (curr_word == dict[k].word && dict[i].meaning != dict[k].meaning) {
+            if ((curr_word == dict[k].word) && (dict[i].meaning != dict[k].meaning)) {
                 multi_mean_words[curr_word].insert(dict[i].meaning);
                 multi_mean_words[curr_word].insert(dict[k].meaning);
             }
@@ -113,13 +113,15 @@ WRMergedResult merge_dicts(const std::vector<WRDictToggleSetting> &toggles,
     std::vector<std::vector<DictWord>> dicts;
     size_t n_chosen_dicts = 0;
     for (const WRDictToggleSetting &tg : toggles)
-        if (tg.is_active)
+        if (tg.isActive)
             ++n_chosen_dicts;
     dicts.reserve(n_chosen_dicts);
+    if (n_chosen_dicts == 0)
+        return {};
 
     for (const WRDictToggleSetting &tg : toggles)
-        if (tg.is_active)
-            dicts.push_back(parse_dict_file(tg.dict_file));
+        if (tg.isActive)
+            dicts.push_back(parse_dict_file(tg.dictFile));
 
     // merge, but only std::string
     MergedResultRaw merged_raw = _merge_dicts_raw(std::move(dicts));
@@ -159,7 +161,7 @@ void fill_game_data_from_settings(const WRSettings &settings, WRGameData &gameda
     WRMergedResult merge_result = merge_dicts(settings.toggles, settings.encoding);
     gamedata.mergedDicts = std::move(merge_result.merged);
     gamedata.initial_message = unexpected_multimeaning_as_warning_message(
-        merge_result.unexpected_multimeaning);
+        merge_result.unexpectedMultimeaning);
     gamedata.sessionData.reset();
 }
 
@@ -186,17 +188,12 @@ bool answer_action(const QString &answer, WRGameData &gamedata)
             // was asked to enter the correct one after the failure -> entered correctly
             gamedata.sessionData.isNextRepeat = false;
         } else {
-            // first time correct
+            // first time right
             gamedata.sessionData.correctlyDone.push_back(gamedata.sessionData.roundIdx);
         }
 
         // go to the next word ONLY when the right one is entered correctly
-        if (gamedata.sessionData.roundIdx == gamedata.mergedDicts.size() - 1) {
-            gamedata.sessionData.isFinished = true;
-            gamedata.sessionData.isNextRepeat = false;
-        } else {
-            gamedata.sessionData.roundIdx += 1;
-        }
+        gamedata.sessionData.increase_round();
     } else {
         // ask to repeat, if wrongly entered
         gamedata.sessionData.isNextRepeat = true;

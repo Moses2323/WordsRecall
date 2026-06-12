@@ -115,8 +115,8 @@ void WRSettingsWidget::toggles_to_checkboxes_()
     QVBoxLayout *layout = new QVBoxLayout;
 
     for (const WRDictToggleSetting &tg : pimpl_->wrsettings.toggles) {
-        QCheckBox *checkbox = new QCheckBox(tg.short_filename());
-        checkbox->setChecked(tg.is_active);
+        QCheckBox *checkbox = new QCheckBox(tg.shortFilename());
+        checkbox->setChecked(tg.isActive);
         layout->addWidget(checkbox);
         pimpl_->toggleBoxes_.push_back(checkbox);
     }
@@ -133,14 +133,14 @@ void WRSettingsWidget::checkboxes_states_to_toggles_()
     for (size_t i = 0; i < pimpl_->toggleBoxes_.size(); ++i) {
         WRDictToggleSetting &toggle = pimpl_->wrsettings.toggles[i];
         const QCheckBox *toggleBox = pimpl_->toggleBoxes_[i];
-        if (toggle.short_filename() != toggleBox->text()) {
+        if (toggle.shortFilename() != toggleBox->text()) {
             std::stringstream ess;
             ess << "stored toggle settings short filename '"
-                << toggle.short_filename().toStdString() << "' is not equal to toggle box text '"
+                << toggle.shortFilename().toStdString() << "' is not equal to toggle box text '"
                 << toggleBox->text().toStdString() << "'";
             throw std::runtime_error(ess.str());
         }
 
-        toggle.is_active = toggleBox->isChecked();
+        toggle.isActive = toggleBox->isChecked();
     }
 }

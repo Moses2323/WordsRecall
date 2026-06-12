@@ -91,8 +91,8 @@ void _fill_settings_toggles_with_existing_vals(QSettings &settings,
         std::string filename = settings.value("name_" + i_fl_str).toString().toStdString();
 
         for (WRDictToggleSetting &tg : toggles)
-            if (filename == tg.dict_file.filename().string())
-                tg.is_active = settings.value("is_active_" + i_fl_str).toBool();
+            if (filename == tg.dictFile.filename().string())
+                tg.isActive = settings.value("is_active_" + i_fl_str).toBool();
     }
 }
 
@@ -100,24 +100,24 @@ void _fill_settings_toggles_with_existing_vals(QSettings &settings,
 
 // -----------------------------------------------------------------------------------------------
 
-QString WRDictToggleSetting::short_filename() const
+QString WRDictToggleSetting::shortFilename() const
 {
-    return QString(dict_file.filename().string().c_str());
+    return QString(dictFile.filename().string().c_str());
 }
 
 bool WRDictToggleSetting::operator<(const WRDictToggleSetting &oth) const
 {
-    return dict_file.filename() < oth.dict_file.filename();
+    return dictFile.filename() < oth.dictFile.filename();
 }
 
-const std::filesystem::path &WRSettings::get_dict_fld() const
+const std::filesystem::path &WRSettings::getDictFld() const
 {
-    return dict_fld_;
+    return dictFld_;
 }
 
-void WRSettings::set_dict_fld(const std::filesystem::path &dict_fld)
+void WRSettings::setDictFld(const std::filesystem::path &dict_fld)
 {
-    dict_fld_ = dict_fld;
+    dictFld_ = dict_fld;
 }
 
 namespace wr {
@@ -132,8 +132,6 @@ bool need_recreate_settings(const QSettings &settings)
     if (!keys.contains("dict_format"))
         return true;
 
-    //! \todo check if need to recreate the dict files section as well.
-
     return false;
 }
 
@@ -145,7 +143,7 @@ void create_default_settings(QSettings &settings)
 
 void update_settings_from_dir(WRSettings &wrsettings)
 {
-    _read_dir_as_toggles(wrsettings.get_dict_fld(), wrsettings.toggles);
+    _read_dir_as_toggles(wrsettings.getDictFld(), wrsettings.toggles);
     _fill_settings_toggles_with_existing_vals(wrsettings.settings, wrsettings.toggles);
 
     dump_toggles_to_settings_file(wrsettings.settings, wrsettings.toggles);
@@ -167,8 +165,8 @@ void dump_toggles_to_settings_file(QSettings &settings,
 
         settings.remove("");
         for (size_t i = 0; i < toggles.size(); ++i) {
-            settings.setValue("name_" + std::to_string(i), toggles[i].short_filename());
-            settings.setValue("is_active_" + std::to_string(i), toggles[i].is_active);
+            settings.setValue("name_" + std::to_string(i), toggles[i].shortFilename());
+            settings.setValue("is_active_" + std::to_string(i), toggles[i].isActive);
         }
     }
     settings.sync();

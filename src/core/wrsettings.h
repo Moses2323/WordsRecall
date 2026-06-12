@@ -1,3 +1,7 @@
+/**
+ * \file    wrsettings.h
+ * \brief   Application settings as a struct + functions for it. No GUI.
+ */
 #pragma once
 
 #include <QSettings>
@@ -5,12 +9,13 @@
 #include <src/core/wrdefined.h>
 #include <vector>
 
+//! \class Toggle for a single dict file.
 struct WRDictToggleSetting
 {
-    std::filesystem::path dict_file{};
-    bool is_active{false};
+    std::filesystem::path dictFile{};
+    bool isActive{false};
 
-    QString short_filename() const;
+    QString shortFilename() const;
 
     bool operator<(const WRDictToggleSetting &oth) const;
 };
@@ -26,8 +31,8 @@ public:
     //! \brief Encoding for dict files.
     wr::DictFileEncoding encoding{wr::DictFileEncoding::not_set};
 
-    const std::filesystem::path &get_dict_fld() const;
-    void set_dict_fld(const std::filesystem::path &dict_fld);
+    const std::filesystem::path &getDictFld() const;
+    void setDictFld(const std::filesystem::path &dict_fld);
 
     WRSettings() = default;
     WRSettings(const WRSettings &) = delete;
@@ -35,7 +40,7 @@ public:
 
 private:
     //! \brief Main dir for dictionary files.
-    std::filesystem::path dict_fld_{};
+    std::filesystem::path dictFld_{};
 };
 
 namespace wr {

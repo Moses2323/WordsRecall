@@ -1,3 +1,11 @@
+/**
+ * \file    wrgamedata.h
+ * \brief   Game data structures. No GUI. No complicated logic.
+ * 
+ * Minimum of private fields. The overall idea:
+ * - keep data separate from the logic.
+ * - data should be as much as possible separated from GUI. GUI is just a representation of the data.
+ */
 #pragma once
 
 #include <QString>
@@ -5,7 +13,7 @@
 #include <random>
 #include <vector>
 
-//! \class A single word converted from std::string through encoding.
+//! \class A single word converted from std::string through encoding to QString.
 struct WRGDictWord
 {
     QString word;
@@ -18,13 +26,14 @@ struct WRGDictWord
 };
 
 //! \class Single game session data.
-struct SessionData
+struct WRSessionData
 {
-    //! \brief Current round index.
+    //! \brief Current round index. Changes only incrementally as +1.
     size_t roundIdx{0};
 
     /*! \brief If True, next round is just a repeat.
      *  \details Need to ask the player to enter the word correctly before proceeding further.
+     *           It is done for better memorizing of the word.
      */
     bool isNextRepeat{false};
     //! \brief Is all words from this dict finished?
@@ -33,11 +42,19 @@ struct SessionData
     //! \brief Indices of the words that were correctly done by the player.
     std::vector<size_t> correctlyDone;
 
-    //! \brief Shuffled indices to show the dict.
+    //! \brief Shuffled indices for this game session.
     std::vector<size_t> showIndices;
 
+    //! \brief Number of correctly entered words without any tips.
     size_t n_correct() const;
+    /*! \brief Number of already entered incorrect words.
+     *  \details The user saw these words and had an opportunity to enter them correctly.
+     */
     size_t n_incorrect() const;
+
+    void increase_round();
+
+    //! \brief Full reset of the structure values. Like the game not yet even started.
     void reset();
 };
 
@@ -51,16 +68,20 @@ struct WRGameData
     QString initial_message{""};
 
     //! \brief Current game session data.
-    SessionData sessionData{};
+    WRSessionData sessionData{};
 
+    //! \brief Random generator engine. Used for shuffling the indices, for example.
     std::mt19937 random_generator{std::random_device{}()};
 
     WRGameData() = default;
 
-    // only to avoid any pitfalls during the app development for now
+    // only to avoid any pitfalls during the app logic
     WRGameData(const WRGameData &) = delete;
     WRGameData &operator=(const WRGameData &) = delete;
 
-    //! \brief Get the current word for the game session.
+    //! \brief Get the current word for the game session. `mergedDicts[showIndices[roundIdx]]`.
     const WRGDictWord &get_current_word() const;
+
+    //! \brief Check if the dict is empty (when it has 0 words).
+    bool empty() const;
 };

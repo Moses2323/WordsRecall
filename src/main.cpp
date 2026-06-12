@@ -4,7 +4,6 @@
 #include <QApplication>
 #include <QDebug>
 #include <QLocale>
-#include <QMessageBox>
 #include <QTranslator>
 #include <iostream>
 #include <memory>
