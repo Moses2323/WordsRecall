@@ -32,15 +32,6 @@ size_t WRSessionData::n_incorrect() const
     return roundIdx + repeat_round_shift - n_correct();
 }
 
-void WRSessionData::increase_round()
-{
-    if (roundIdx == showIndices.size() - 1) {
-        isFinished = true;
-    } else {
-        roundIdx += 1;
-    }
-}
-
 void WRSessionData::reset()
 {
     roundIdx = 0;

@@ -52,8 +52,6 @@ struct WRSessionData
      */
     size_t n_incorrect() const;
 
-    void increase_round();
-
     //! \brief Full reset of the structure values. Like the game not yet even started.
     void reset();
 };

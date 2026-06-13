@@ -100,6 +100,15 @@ std::vector<WRMultiMeaning> _multimeaning_to_qstring(const MultiMeaningWords &mm
     return mm_qstr;
 }
 
+void _increase_round(WRSessionData &session)
+{
+    if (session.roundIdx == session.showIndices.size() - 1) {
+        session.isFinished = true;
+    } else {
+        session.roundIdx += 1;
+    }
+}
+
 } // namespace
 
 // -----------------------------------------------------------------------------------------------
@@ -193,7 +202,7 @@ bool answer_action(const QString &answer, WRGameData &gamedata)
         }
 
         // go to the next word ONLY when the right one is entered correctly
-        gamedata.sessionData.increase_round();
+        _increase_round(gamedata.sessionData);
     } else {
         // ask to repeat, if wrongly entered
         gamedata.sessionData.isNextRepeat = true;
