@@ -12,7 +12,7 @@ using MultiMeaningWords = std::map<std::string, std::set<std::string>>;
 struct MergedResultRaw
 {
     std::vector<DictWord> merged;
-    MultiMeaningWords unexpected_multimeaning;
+    MultiMeaningWords unexpectedMultimeaning;
 };
 
 QString _unencrypt(wr::DictFileEncoding encoding, const std::string &s)
@@ -129,7 +129,7 @@ WRMergedResult merge_dicts(const std::vector<WRDictToggleSetting> &toggles,
 
     // to QString
     std::vector<WRMultiMeaning> multimeaning_qstring
-        = _multimeaning_to_qstring(merged_raw.unexpected_multimeaning, encoding);
+        = _multimeaning_to_qstring(merged_raw.unexpectedMultimeaning, encoding);
     std::vector<WRGDictWord> merged;
     merged.reserve(merged_raw.merged.size());
     for (const DictWord &dw_std : merged_raw.merged)

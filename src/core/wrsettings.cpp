@@ -61,10 +61,7 @@ void _read_dir_as_toggles(const fs::path &dict_fld, std::vector<WRDictToggleSett
 {
     toggles.clear();
 
-    size_t n_files = 0;
-    for (auto const &_file : fs::directory_iterator(dict_fld))
-        ++n_files;
-
+    size_t n_files = std::distance(fs::directory_iterator(dict_fld), {});
     toggles.reserve(n_files);
     for (const fs::path &file : fs::directory_iterator(dict_fld)) {
         toggles.push_back(WRDictToggleSetting(fs::absolute(file), false));
