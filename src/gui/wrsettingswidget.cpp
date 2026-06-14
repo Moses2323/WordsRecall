@@ -4,6 +4,7 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QScrollArea>
 #include <QVBoxLayout>
 #include <QWidget>
 #include <src/core/wrsettings.h>
@@ -16,6 +17,7 @@ struct WRSettingsWidget::impl
     WRSettings &wrsettings;
     WRMainWindow *parentMainWindow{nullptr};
 
+    QScrollArea *dictSelectionWidgetScrollArea{nullptr};
     QVBoxLayout *mainLayout{nullptr};
     // Widget for selecting dict files.
     QGroupBox *dictSelectionWidget{nullptr};
@@ -34,6 +36,13 @@ struct WRSettingsWidget::impl
     {}
 };
 
+namespace {
+
+constexpr int _MIN_SIZE_X = 50;
+constexpr int _MIN_SIZE_Y = 50;
+
+} // namespace
+
 // -----------------------------------------------------------------------------------------------
 
 WRSettingsWidget::WRSettingsWidget(QWidget *parent,
@@ -42,10 +51,17 @@ WRSettingsWidget::WRSettingsWidget(QWidget *parent,
     : QWidget(parent)
     , pimpl_(new WRSettingsWidget::impl(wrsettings, main_window))
 {
-    setMinimumSize(300, 100);
+    setMinimumSize(_MIN_SIZE_X, _MIN_SIZE_Y);
 
-    // layouts
+    // layouts    
     pimpl_->mainLayout = new QVBoxLayout;
+    pimpl_->dictSelectionWidgetScrollArea = new QScrollArea;
+    pimpl_->dictSelectionWidgetScrollArea->setMinimumSize(_MIN_SIZE_X, _MIN_SIZE_Y);
+    pimpl_->dictSelectionWidgetScrollArea->setSizeAdjustPolicy(
+        QScrollArea::SizeAdjustPolicy::AdjustToContents);
+    pimpl_->dictSelectionWidgetScrollArea->setContentsMargins(0, 0, 0, 0);
+    pimpl_->mainLayout->addWidget(pimpl_->dictSelectionWidgetScrollArea);
+
     pimpl_->buttonsLayout = new QHBoxLayout;
 
     pimpl_->okButton = new QPushButton(tr("&OK"));
@@ -100,7 +116,7 @@ void WRSettingsWidget::closeEvent(QCloseEvent *event)
 void WRSettingsWidget::clean_dict_checkboxes_()
 {
     if (pimpl_->dictSelectionWidget != nullptr) {
-        pimpl_->mainLayout->removeWidget(pimpl_->dictSelectionWidget);
+        (void) pimpl_->dictSelectionWidgetScrollArea->takeWidget();
         delete pimpl_->dictSelectionWidget;
         pimpl_->dictSelectionWidget = nullptr;
         pimpl_->toggleBoxes_.clear();
@@ -122,7 +138,7 @@ void WRSettingsWidget::toggles_to_checkboxes_()
     }
     pimpl_->dictSelectionWidget->setLayout(layout);
 
-    pimpl_->mainLayout->insertWidget(0, pimpl_->dictSelectionWidget);
+    pimpl_->dictSelectionWidgetScrollArea->setWidget(pimpl_->dictSelectionWidget);
 }
 
 void WRSettingsWidget::checkboxes_states_to_toggles_()
