@@ -1,0 +1,16 @@
+일 @ one (1) @
+이 @ two (2) @
+삼 @ three (3) @
+사 @ four (4) @
+오 @ five (5) @
+육 @ six (6) @
+칠 @ seven (7) @
+팔 @ eight (8) @
+구 @ nine (9) @
+십 @ ten (10) @
+영 @ null / zero (mathematical zero) @
+공 @ null / nothing (e.g. used for phones) @
+백 @ hundred (100) @
+천 @ thousand (1000) @
+만 @ ten thousand (10'000) @
+억 @ ten million (100'000'000) @

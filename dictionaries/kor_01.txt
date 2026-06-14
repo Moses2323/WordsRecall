@@ -52,3 +52,5 @@
 고추 @ pepper @
 치마 @ skirt @
 소라 @ conch (ракушка) @
+네 @ yes @
+아니요 @ no @

@@ -1,0 +1,10 @@
+열 @ ten (10) @
+스물 @ twenty (20) @
+서른 @ thirty (30) @
+마흔 @ forty (40) @
+쉰 @ fifty  (50) @
+예순 @ sixty (60) @
+일흔 @ seventy (70) @
+여든 @ eighty (80) @
+아흔 @ ninety (90) @
+백 @ hundred (100) @

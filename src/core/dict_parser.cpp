@@ -101,6 +101,18 @@ void _strip_dict_word(const std::string &file_content, _DictWordAsIndices &dwi)
     }
 }
 
+void _check_output(const std::vector<DictWord> &dict)
+{
+    for (const DictWord &dw : dict) {
+        if (dw.word.empty() || dw.meaning.empty()) {
+            std::stringstream ess;
+            ess << "Something went wrong during the dictionary parsing. The word " << dw
+                << " has empty strings";
+            throw wr::dict_file_error(ess.str());
+        }
+    }
+}
+
 } // namespace
 
 // -----------------------------------------------------------------------------------------------
@@ -193,6 +205,8 @@ std::vector<DictWord> parse_dict_file_content(const std::string &dict_string)
         dict_words.push_back(DictWord(dict_string.substr(dwi.b_word, nchar_word),
                                       dict_string.substr(dwi.b_meaning, nchar_meaning)));
     }
+
+    _check_output(dict_words);
     return dict_words;
 }
 
