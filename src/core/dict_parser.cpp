@@ -92,7 +92,7 @@ void _strip_dict_word(const std::string &file_content, _DictWordAsIndices &dwi)
         }
     }
 
-    if ((dwi.b_word >= dwi.e_word) || (dwi.b_meaning >= dwi.e_meaning)) {
+    if ((dwi.b_word > dwi.e_word) || (dwi.b_meaning > dwi.e_meaning)) {
         std::stringstream ess;
         ess << "The word or it's meaning seems empty:" << std::endl;
         ess << "    " << dwi << std::endl;
