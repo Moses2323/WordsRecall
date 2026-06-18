@@ -54,3 +54,13 @@
 소라 @ conch (ракушка) @
 네 @ yes @
 아니요 @ no @
+
+휴지 @ tissue @
+잘자요 @ good night (for friends) @
+바빠요 @ busy @
+읊조리다 @ to mumble @
+안녕히 가세요 @ good bye (you are going out) @
+안녕히 계세요 @ good bye (you are staying) @
+살 @ age (возраст) @
+쌀 @ non-coocked rice @
+많이 @ many (много) @
