@@ -3,7 +3,7 @@
 #include <QTextStream>
 #include <map>
 #include <set>
-#include <src/core/dict_parser.h>
+#include <core/dict_parser.h>
 
 namespace {
 

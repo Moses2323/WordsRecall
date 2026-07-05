@@ -5,8 +5,8 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
-#include <src/core/wrdefined.h>
-#include <src/core/wrpaths.h>
+#include <core/wrdefined.h>
+#include <core/wrpaths.h>
 #include <sstream>
 #include <vector>
 

@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QTextEdit>
 #include <QVBoxLayout>
-#include <src/core/wrgamelogic.h>
+#include <core/wrgamelogic.h>
 
 struct WRGameWidget::impl
 {

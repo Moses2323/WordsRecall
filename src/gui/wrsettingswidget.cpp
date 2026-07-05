@@ -7,7 +7,7 @@
 #include <QScrollArea>
 #include <QVBoxLayout>
 #include <QWidget>
-#include <src/core/wrsettings.h>
+#include <core/wrsettings.h>
 #include <sstream>
 #include <vector>
 

@@ -1,5 +1,5 @@
 #include "wrgamedata.h"
-#include <src/core/wrdefined.h>
+#include <core/wrdefined.h>
 #include <sstream>
 
 WRGDictWord::WRGDictWord(const QString &word, const QString &meaning)

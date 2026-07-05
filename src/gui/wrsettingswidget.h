@@ -6,8 +6,8 @@
 
 #include <QWidget>
 #include <memory>
-#include <src/core/wrsettings.h>
-#include <src/gui/wrmainwindow.h>
+#include <core/wrsettings.h>
+#include <gui/wrmainwindow.h>
 
 //! \class Settings widget. Opens as a separate window.
 class WRSettingsWidget : public QWidget

@@ -1,5 +1,5 @@
-#include <src/gui/debug_window.h>
-#include <src/gui/wrmainwindow.h>
+#include <gui/debug_window.h>
+#include <gui/wrmainwindow.h>
 
 #include <QApplication>
 #include <QDebug>
@@ -7,8 +7,8 @@
 #include <QTranslator>
 #include <iostream>
 #include <memory>
-#include <src/core/dict_parser.h>
-#include <src/core/wrdefined.h>
+#include <core/dict_parser.h>
+#include <core/wrdefined.h>
 
 constexpr bool _DEBUG_DICT = false;
 
@@ -59,4 +59,5 @@ int main(int argc, char **argv)
     } catch (...) {
         std::cerr << "Unknown exception occured" << std::endl;
     }
+    return 0;
 }

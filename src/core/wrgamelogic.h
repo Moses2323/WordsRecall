@@ -4,9 +4,9 @@
  */
 #pragma once
 
-#include <src/core/wrdefined.h>
-#include <src/core/wrgamedata.h>
-#include <src/core/wrsettings.h>
+#include <core/wrdefined.h>
+#include <core/wrgamedata.h>
+#include <core/wrsettings.h>
 #include <vector>
 
 //! \struct Word with multiple meaning. Not supported by the application => as a warning.

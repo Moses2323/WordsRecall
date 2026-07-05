@@ -6,8 +6,8 @@
 
 #include <QWidget>
 #include <memory>
-#include <src/core/wrgamedata.h>
-#include <src/core/wrsettings.h>
+#include <core/wrgamedata.h>
+#include <core/wrsettings.h>
 
 //! \class Main widget for the game.
 class WRGameWidget : public QWidget

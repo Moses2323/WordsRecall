@@ -6,12 +6,12 @@
 #include <filesystem>
 #include <iostream>
 #include <memory>
-#include <src/core/wrgamedata.h>
-#include <src/core/wrgamelogic.h>
-#include <src/core/wrpaths.h>
-#include <src/core/wrsettings.h>
-#include <src/gui/wrgamewidget.h>
-#include <src/gui/wrsettingswidget.h>
+#include <core/wrgamedata.h>
+#include <core/wrgamelogic.h>
+#include <core/wrpaths.h>
+#include <core/wrsettings.h>
+#include <gui/wrgamewidget.h>
+#include <gui/wrsettingswidget.h>
 
 namespace fs = std::filesystem;
 

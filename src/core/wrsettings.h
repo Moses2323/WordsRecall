@@ -6,7 +6,7 @@
 
 #include <QSettings>
 #include <filesystem>
-#include <src/core/wrdefined.h>
+#include <core/wrdefined.h>
 #include <vector>
 
 //! \class Toggle for a single dict file.

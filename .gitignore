@@ -1,2 +1,7 @@
 /build/
 /.qtcreator/
+/build_exec/
+.qtcreator
+.qtc_clangd
+build
+/build_exec/
